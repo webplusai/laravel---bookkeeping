@@ -1,0 +1,143 @@
+.card-header .heading-elements a {
+	padding: 0px !important;
+	margin: 0px 8px !important;
+}
+
+.card-header2 {
+	padding: 1rem 1.5rem;
+    margin-bottom: 0;
+    background-color: #fffbf2;
+    border-bottom: 1px solid rgba(0, 0, 0, 0);
+}
+
+.chartFlx div.legendColor {
+    border-left: solid 4px #542FB1 !important;
+    padding-left: 5px !important;
+}
+
+.chartFlx div.legendColor:last-child {
+    border-left: solid 4px #BFAEEA !important;
+}
+
+.cmp-name {
+    margin: 0px 0px 18px !important;
+}
+
+.dataTable {
+	width: 100% !important;
+}
+
+.dataTable tr td {
+	vertical-align: middle;
+}
+
+.dropdown .dropdown-menu .action-item {
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+.table-action tbody tr {
+	line-height: 34px !important;
+}
+
+.table-action tr td {
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+
+#datatable_filter, .dataTables_filter {
+	float: right;
+}
+
+#datatable_length, .dataTables_length {
+	display: inline-block;
+}
+
+.dataTable thead tr th:nth-child(2), .dataTable tbody tr td:nth-child(2) {
+	display: none;
+}
+
+.dropdown-menu {
+	margin-top: 0px;
+}
+
+.dt-buttons {
+	display: none;
+}
+
+.errors {
+	color: red;
+}
+
+.form-control {
+	display: initial !important;
+	padding: 10px 10px !important;
+}
+
+.full-screen-loader {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 1000000;
+	background-color: #f3f3f3;
+}
+
+.full-screen-loader .ball-pulse-sync div{
+	background-color: #ac92ec;
+}
+
+.img-comp {
+    display: inline-block;
+}
+
+.name-comp {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+}
+
+.no-padding {
+	padding: 0px !important;
+}
+
+.no-padding-right {
+	padding-right: 0px !important;
+}
+
+#salesDataTable, #expenseDataTable, #journalEntriesDataTable {
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+#salesDataTable tbody tr:active, #expenseDataTable tbody tr:active, #journalEntriesDataTable tbody tr:active {
+	background-color: #BFAEEA;
+}
+
+#select-beast-selectized {
+	width: 107px !important;
+	opacity: 1 !important;
+	left: 0px !important;
+}
+
+.selectize-control {
+	background-color: #ffffff !important;
+}
+
+.selectize-dropdown-content .option:hover, .selectize-dropdown-content .option.selected {
+	background-color: #eeeeee;
+}
+
+table.valign td {
+	vertical-align: middle;
+}
+
+.valign-middle {
+	vertical-align: middle !important;
+}
+
+@media ( min-width: 768px ) {
+	.vertical-align {
+	    display: flex;
+	    align-items: center;
+	}
+}

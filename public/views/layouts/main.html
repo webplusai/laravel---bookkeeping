@@ -1,0 +1,135 @@
+<div class="{{ $state.current.data.contentClasses }}">
+  <nav class="topnav-bar header-navbar navbar navbar-with-menu navbar-light navbar-border navbar-brand-center">
+    <div class="container">
+      <div class="navbar-wrapper">
+        <div class="navbar-header">
+          <ul class="nav navbar-nav">
+            <li class="nav-item mobile-menu hidden-md-up float-xs-left"><a class="nav-link nav-menu-main menu-toggle hidden-xs"><i class="icon-menu5 font-large-1"></i></a></li>
+            <li class="nav-item"><a href="#/dashboard" class="navbar-brand nav-link"><img alt="branding logo" src="img/logo/robust-logo-dark.png" data-expand="img/logo/robust-logo-dark.png" data-collapse="img/logo/robust-logo-small.png" class="brand-logo"></a></li>
+            <li class="nav-item hidden-md-up float-xs-right"><a data-toggle="collapse" data-target="#navbar-mobile" class="nav-link open-navbar-container"><i class="icon-ellipsis pe-2x icon-icon-rotate-right-right"></i></a></li>
+          </ul>
+        </div>
+        <div class="navbar-container container center-layout">
+          <div id="navbar-mobile" class="collapse navbar-toggleable-sm">
+            <ul class="nav navbar-nav float-xs-right topRightMenu">
+              <li class="nav-item dropdown"><a data-toggle="dropdown" class="nav-link"><i class="icon-plus3"></i></a>
+                <ul class="dropdown-menu dropdown-menu-right ddm ddm-add box-shadow-1" style="min-width:600px;">
+                  <div class="col-md-4 mb-1">
+                    <h6 class="dropdown-header m-0"><strong>Customers</strong></h6>
+                    <li><a class="dropdown-item" href="#/new-invoice"><i class="icon-marquee-plus"></i> New Invoice</a></li>
+                    <li><a class="dropdown-item" href="#/new-payment"><i class="icon-file-text2"></i> Receive Payment</a></li>
+                    <li><a class="dropdown-item" href="#/new-sales-receipt"><i class="icon-file-text2"></i> New Sales Receipt</a></li>
+                    <li><a class="dropdown-item" href="#/new-credit-note"><i class="icon-file-text2"></i> New Credit Note</a></li>
+                  </div>
+                  <div class="col-md-4 mb-1">
+                    <h6 class="dropdown-header m-0"><strong>Suppliers</strong></h6>
+                    <li><a class="dropdown-item" href="#/new-expense"><i class="icon-coin-dollar"></i> Expense</a></li>
+                    <li><a class="dropdown-item" href="#/new-bill"><i class="icon-marquee-plus"></i> New Bill</a></li>
+                    <li><a class="dropdown-item" href="#/new-bill-payment"><i class="icon-file-text2"></i> Receive Bill Payment </a></li>
+                    <li><a class="dropdown-item" href="#/new-supplier-credit"><i class="icon-file-text2"></i> New Supplier Credit </a></li>
+                  </div>
+                  <div class="col-md-4 mb-1">
+                    <h6 class="dropdown-header m-0"><strong>Other</strong></h6>
+                    <li><a class="dropdown-item" href="#/new-journal-entry"><i class="icon-coin-dollar"></i> Journal Entry </a></li>
+                  </div>
+                </ul>
+              </li>
+              <li class="nav-item dropdown"><a data-toggle="dropdown" class="nav-link nav-link-search"><i class="icon-search5"></i></a>
+                <ul class="dropdown-menu dropdown-menu-right ddm ddm-search box-shadow-1" style="min-width:500px;">
+                  <div>
+                    <h6 class="dropdown-header m-0"><strong>Search</strong></h6>
+                    <form class="m-1">
+                      <div class="col-md-9 col-xs-8">
+                        <input id="inputName1" placeholder="Enter your text here..." class="form-control" type="text">
+                      </div>
+
+                      <div class="col-md-3  col-xs-4 mb-1">
+                        <button type="button" class="btn btn-primary float-xs-right"><i class="icon-search"></i> Search</button>
+                      </div>
+                    </form>
+                  </div>
+                </ul>
+              </li>
+              <li class="nav-item dropdown"><a data-toggle="dropdown" class="nav-link"><i class="icon-gear"></i></a>
+                <ul class="dropdown-menu dropdown-menu-right ddm ddm-setting box-shadow-1" style="min-width:800px;" data-ng-controller="HeaderCtrl">
+                  <h6 class="dropdown-header m-0"><strong> {{ companyName }} </strong></h6>
+                  <div class="col-md-4 mb-1">
+                    <li><a class="dropdown-item" href="#/company-profile"><i class="icon-building-o"></i> Company Profile </a></li>
+                    <li><a class="dropdown-item"><i class="icon-envelope-o"></i> Subscription</a></li>
+                    <li><a class="dropdown-item" href="#/chart-of-account"><i class="icon-bar-chart"></i> Chart Of Account </a></li>
+                    <li><a class="dropdown-item" href="#/product-service"><i class="icon-gear"></i> Product and Services </a></li>
+                    <li><a class="dropdown-item" href="#/journal-entry"><i class="icon-gear"></i> Journal Entry </a></li>
+                  </div>
+                  <div class="col-md-4">
+                    <li><a class="dropdown-item" href="#/product-category"><i class="icon-list-ul"></i> Product Categories</a></li>
+                    <li><a class="dropdown-item"><i class="icon-paperclip2"></i> Attachments</a></li>
+                    <li><a class="dropdown-item" href="#/audit-log"><i class="icon-clipboard2"></i> Audit Log</a></li>
+                    <li><a class="dropdown-item"><i class="icon-folder-open2"></i> Import Data</a></li>
+                  </div>
+                  <div class="col-md-4">
+                    <li><span class="dropdown-item" style="color: #000;"><i class="icon-head"></i> <b> {{ userName }} </b> </span></li>
+                    <li><a class="dropdown-item" href="#/user-profile"><i class="icon-head"></i> User Profile</a></li>
+                    <li><a class="dropdown-item" data-ng-click="signout()"><i class="icon-sign-out"></i> Sign Out</a></li>
+                  </div>
+                </ul>
+              </li>
+              <li class="nav-item dropdown"><a data-toggle="dropdown" class="nav-link"><i class="icon-question2"></i></a>
+                <ul class="dropdown-menu dropdown-menu-right ddm ddm-help box-shadow-1" style="min-width:480px;">
+                  <div>
+                    <h6 class="dropdown-header m-0 b-"><strong>Help !</strong></h6>
+                    <form class="m-1 clearfix">
+                      <div class="col-md-9  col-xs-8">
+                        <input id="" placeholder="How Can I help You ?" class="form-control" type="text">
+                      </div>
+                      <div class="col-md-3  col-xs-4 mb-1">
+                        <button type="button" class="btn btn-primary float-xs-right"><i class="icon-search"></i> Help</button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-md-6 mb-1" style="border-right:1px solid #ececec;">
+                    <h6 class="dropdown-header m-0 p-015"><strong>Top Help Topics</strong></h6>
+                    <li><a class="dropdown-item"><i class="icon-android-arrow-dropright"></i> Link to Topic One</a></li>
+                    <li><a class="dropdown-item"><i class="icon-android-arrow-dropright"></i> Link to Topic Two</a></li>
+                    <li><a class="dropdown-item"><i class="icon-android-arrow-dropright"></i> Link to Topic Three</a></li>
+                  </div>
+                  <div class="col-md-6 mb-1">
+                    <li><p class="ddm-hp">If You Need More Help, Please <a> Contact Us </a>and We Will Be Happy To Assist You</p></li>
+                  </div>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Horizontal navigation-->
+  <div role="navigation" data-menu="menu-wrapper" class="header-navbar navbar navbar-horizontal navbar-light navbar-shadow navbar-without-dd-arrow navbar-fixed">
+    <div data-menu="menu-container" class="navbar-container main-menu-content container center-layout">
+      <ul id="main-menu-navigation" data-menu="menu-navigation" class="nav navbar-nav fw">
+        <li data-menu="" class="nav-item" data-ng-class="{ selected: $state.includes('app.main.dashboard') }"><a href="#/dashboard" class="nav-link">Dashboard</a></li>
+        <li data-menu="" class="nav-item" data-ng-class="{ selected: $state.includes('app.main.customers') }"><a href="#/customers" class="nav-link">Customers</a></li>
+        <li data-menu="" class="nav-item" data-ng-class="{ selected: $state.includes('app.main.suppliers') }"><a href="#/suppliers" class="nav-link">Suppliers</a></li>
+        <li data-menu="" class="nav-item" data-ng-class="{ selected: $state.includes('app.main.sales') }"><a href="#/sales" class="nav-link">Sales</a></li>
+        <li data-menu="" class="nav-item" data-ng-class="{ selected: $state.includes('app.main.expense') }"><a href="#/expense" class="nav-link">Expense</a></li>
+        <li data-menu="" class="nav-item" data-ng-class="{ selected: $state.includes('app.main.reports') }"><a href="#/reports" class="nav-link">Reports</a></li>
+      </ul>
+    </div>
+  </div>
+  <!-- Horizontal navigation-->
+</div>
+
+<div class="{{ $state.current.data.contentClasses }}" data-ui-view> </div>
+
+<div class="{{ $state.current.data.contentClasses }} print-hidden">
+  <footer class="footer footer-light">
+    <p class="clearfix text-muted text-sm-center mb-0 px-2">
+    	<span class="float-md-left d-xs-block d-md-inline-block">Copyright  &copy; 2017 
+    		<a href="https://themeforest.net/user/pixinvent/portfolio?ref=pixinvent" target="_blank" class="text-bold-800 grey darken-2">Sejllat </a>, 
+    		All rights reserved. 
+    	</span>
+    	<span class="float-md-right d-xs-block d-md-inline-block"> Hand-crafted & Made with <i class="icon-heart5 pink"></i> </span>
+    </p>
+  </footer>
+</div>

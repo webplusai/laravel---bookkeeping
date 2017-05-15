@@ -1,0 +1,326 @@
+<div data-ng-controller="NewInvoiceCtrl" class="robust-content container center-layout mt-2">
+  <div class="content-wrapper">
+    <div class="content-header row mb-1 print-hidden">
+      <div class="content-header-left col-md-9 col-xs-12">
+        <h2 class="content-header-title mb-0">Invoice No# {{ transaction.transaction.invoice_receipt_no }} </h2>
+        <div class="row breadcrumbs-top print-hidden">
+          <div class="breadcrumb-wrapper col-xs-12">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#/dashboard">Home</a></li>
+              <li class="breadcrumb-item"><a href="#/sales">Sales</a></li>
+              <li class="breadcrumb-item active">Invoice
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div sej-new-sales-dropdown> </div>
+
+      <div id="selectPersonType" class="slt-open-dd card select-person-type" sej-person-type-dialog> </div>
+
+      <div class="modal fade text-xs-left" id="newPersonDialog" tabindex="-1" role="dialog" data-labelledby="myModalLabel1" aria-hidden="true" data-sej-person-dialog data-create-event="createPerson"> </div>
+
+      <div class="modal fade text-xs-left" id="productServiceDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" data-sej-product-service-dialog data-create-event="createProductService"> </div>
+
+      <div class="modal fade text-xs-left" id="productCategoryDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" data-sej-product-category-dialog data-create-event="createProductCategory" data-update-event="updateProductCategory"> </div>
+
+      <div class="modal fade text-xs-left" id="deleteConfirmDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" data-sej-delete-confirm-dialog data-delete-event="deleteTransaction" data-target-name="invoice"> </div>
+
+      <div class="modal fade text-xs-left" id="zeroWarningDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" data-sej-trxn-zero-warning-dialog> </div>
+
+      <p class="m-0">&nbsp;</p>
+    </div>
+
+    <div class="print-content print-show">
+      <div class="row">
+        <div class="col-md-3" style="float: left; width: 50%;">
+          <h1> {{ companyProfile.company_name }} </h1>
+          <div> {{ companyProfile.address }} </div>
+          <div> {{ companyProfile.city }} {{ companyProfile.country }} </div>
+          <div> {{ companyProfile.company_phone }} {{ companyProfile.company_email }} </div>
+        </div>
+        <div class="col-md-6" style="float: left; width: 25%;"> </div>
+        <div class="col-md-3" style="float: left; width: 25%;">
+          <h1> INVOICE </h1>
+          <img height="70px" src="uploads/{{ companyProfile.company_logo }}">
+        </div>
+      </div>
+      <hr style="border-top: 3px solid #000; margin-bottom: 40px;">
+      <div class="row">
+        <div class="col-md-3" style="float: left; width: 50%;">
+          <h3> Bill To: </h3>
+          <div> {{ customerInfo.name }} </div>
+          <div> {{ customerInfo.address1 }} {{ customerInfo.address2 }} </div>
+          <div> {{ customerInfo.city }} {{ customerInfo.country }} </div>
+        </div>
+        <div class="col-md-6" style="float: left; width: 10%;"> </div>
+        <div class="col-md-3" style="float: left; width: 40%; margin-top: 15px;">
+          <table>
+            <tbody>
+              <tr>
+                <td width="100px"> Invoice # </td>
+                <td style="border-bottom: 1px solid #777; text-align: center; margin-left: 10px;"> {{ transaction.transaction.invoice_receipt_no }} </td>
+              </tr>
+              <tr>
+                <td width="100px"> Invoice Date : </td>
+                <td style="border-bottom: 1px solid #777; text-align: center; margin-left: 10px;"> {{ transaction.transaction.date }} </td>
+              </tr>
+              <tr>
+                <td width="100px"> Due Date : </td>
+                <td style="border-bottom: 1px solid #777; text-align: center; margin-left: 10px;"> {{ transaction.transaction.due_date }} </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <table class="table-print" style="margin-top: 20px;">
+        <thead>
+          <th> Qty </th>
+          <th> Product/Service </th>
+          <th> Description </th>
+          <th> Unit price </th>
+          <th> Amount </th>
+        </thead>
+        <tbody>
+          <tr data-ng-repeat="invoiceItem in transaction.invoiceItems" data-ng-if="invoiceItem.product_service" class="invoice-item">
+            <td> {{ invoiceItem.qty }} </td>
+            <td> {{ invoiceItem.product_service }} </td>
+            <td> {{ invoiceItem.description }} </td>
+            <td> {{ invoiceItem.rate | number : 2 }} </td>
+            <td> {{ invoiceItem.amount | number : 2 }} </td>
+          </tr>
+          <tr>
+            <td class="no-border"> </td>
+            <td class="no-border"> </td>
+            <td class="no-border"> </td>
+            <td style="border-top: 2px solid #000;"> Sub-total </td>
+            <td style="border-top: 2px solid #000;"> {{ transaction.invoice.sub_total | number : 2}} </td>
+          </tr>
+          <tr>
+            <td class="no-border"> </td>
+            <td class="no-border"> </td>
+            <td class="no-border"> </td>
+            <td> Shipping </td>
+            <td> {{ transaction.invoice.shipping | number : 2 }} </td>
+          </tr>
+          <tr>
+            <td class="no-border"> </td>
+            <td class="no-border"> </td>
+            <td class="no-border"> </td>
+            <td> Discount </td>
+            <td> {{ transaction.discountValue | number : 2 }} </td>
+          </tr>
+          <tr>
+            <td class="no-border"> </td>
+            <td class="no-border"> </td>
+            <td class="no-border"> </td>
+            <td style="border: 2px solid #000;"> Total </td>
+            <td style="border: 2px solid #000;"> {{ transaction.transaction.total | number : 2 }} </td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="height: 100px; border: 1px solid #777; padding: 15px; margin-top: 20px;">
+        <div> Invoice Message : </div>
+        <div>
+          {{ transaction.invoice.message }}
+        </div>
+      </div>
+      <div style="height: 100px; border: 1px solid #777; padding: 15px; margin-top: 20px;">
+        <div> Terms and conditions : </div>
+        <div>
+          
+        </div>
+      </div>
+      <div style="width: 50%; float: left; margin-top: 10px;"> 
+        Name:
+      </div>
+      <div style="width: 50%; float: left; margin-top: 10px;">
+        Signature:
+      </div>
+      <div style="margin-top: 100px;">
+        Thank you
+      </div>
+    </div>
+
+    <div class="content-body print-hidden">
+      <section>
+        <div class="row">
+          <div class="col-xs-12">
+            <!-- <form class="form form-horizontal form-add-new-invoice" novalidate> -->
+              <div class="card">
+                  <div class="card-header dateH" style="display: inline-block;">
+                    <div class="col-md-4 mbv-1 hidden">
+                      <div class="input-group">
+                        <p class="input-grp-addon">Transaction Type</p>
+                        <input type="text" class="form-control" data-ng-model="transactionType" data-ng-init="transactionType='invoice'"/>
+                      </div>
+                    </div>
+                    <div class="col-md-4 offset-md-4 mbv-1 text-md-right hidden">
+                      <div class="input-group">
+                        <p class="input-grp-addon">Transaction Type</p>
+                        <input type="text" tabindex="2" class="form-control" data-ng-model="transaction.transaction.transaction_type" data-ng-init="transaction.transaction.transaction_type=1"/>
+                      </div>
+                    </div>
+                    <div class="col-md-4 mbv-1 hidden">
+                      <div class="input-group">
+                        <p class="input-grp-addon">Table Name</p>
+                        <input type="text" class="form-control" data-ng-model="targetTableName" data-ng-init="targetTableName='customer'"/>
+                      </div>
+                    </div>
+                    <div class="form-group row has-feedback hidden">
+                      <label class="col-md-3 label-control"> Person Type </label>
+                      <input class="form-control hidden" data-ng-model="personListType" data-ng-init="personListType='customer'" placeholder="Name" type="text" tabindex="1">
+                    </div>
+                    <div class="col-md-4 mbv-1 no-padding">
+                      <div>
+                        <select id="personDropdown" class="print-hidden" data-ng-model="transaction.transaction.customer" placeholder="Select a person..." data-ng-options="customer as 'Customer' for customer in customerNames track by customer" add-new-dropdown data-add-new-event="selectPersonType" data-customer-supplier-dropdown>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-4 mbv-1 hidden">
+                      <div class="input-group">
+                        <p class="inpt-grp-addon">Status</p>
+                        <input type="text" class="form-control" data-ng-model="transaction.transaction.status" data-ng-init="transaction.transaction.status=1"/>
+                      </div>
+                    </div>
+                    <div class="col-md-4 mbv-1 from_date no-padding-right">
+                      <div class="input-group print-hidden">
+                        <p class="inpt-grp-addon">Invoice</p>
+                        <span class="input-group-addon"><i class="icon-calendar3"></i></span>
+                        <input type="text" class="form-control dp-month-year" data-ng-model="transaction.transaction.date"/>
+                        <div class="help-block font-small-3"></div>
+                      </div>
+                    </div>
+                    <div class="col-md-4 mbv-1 to_date no-padding-right">
+                      <div class="input-group print-hidden">
+                        <p class="inpt-grp-addon">Due&nbsp;Date</p>
+                        <span class="input-group-addon"><i class="icon-calendar3"></i></span>
+                        <input type="text" class="form-control dp-month-year" data-ng-model="transaction.transaction.due_date"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body" id="base-style" style="display: inline-block;">
+                    <div class="card-block card-dashboard">
+                      <table class="table-bordered tbl-invc table-responsive sorted-table" id="invoiceItems">
+                        <thead>
+                          <tr>
+                            <th class="print-hidden" width="3%">&nbsp;</th>
+                            <th width="3%" align="center" style="text-align: center;">#</th>
+                            <th width="23%">Product/Service</th>
+                            <th width="23%">Description</th>
+                            <th width="12%">QTY</th>
+                            <th width="12%">Rate</th>
+                            <th width="12%">Amount</th>
+                            <th class="print-hidden" width="3%">&nbsp;</th>
+                          </tr>
+                        </thead>
+                        <tbody ui-sortable="sortableOptions" data-ng-model="transaction.invoiceItems">
+                          <tr data-ng-repeat="invoiceItem in transaction.invoiceItems" data-ng-show="invoiceItem.rank" data-ng-ui-sortable-stop="sortableStop">
+                            <td class="print-hidden"> <button class="btn btn-link"> <i class="icon-hand-grab-o"> </i> </button> </td>
+                            <td align="center" class="valign-middle"> {{ invoiceItem.rank }} </td>
+                            <td> <select data-ng-if="invoiceItem.item_type==1" placeholder="Select a product/service..." data-ng-model="invoiceItem.product_service" data-ng-options="product as product for product in productServiceNames track by product" data-add-new-dropdown data-add-new-event="showCreateProductServiceDialog" data-ng-change="setProductServiceRate( invoiceItem.product_service, productServices, invoiceItem, 'selling_price' )">
+                            </select> <span class="print-show"> {{ invoiceItem.product_service }} </span> </td>
+                            <td> <textarea data-ng-if="invoiceItem.item_type==1" class="form-control" data-ng-model="invoiceItem.description"> </textarea> </td>
+                            <td> <input data-ng-if="invoiceItem.item_type==1" class="form-control" type="number" data-ng-change="calculateAmount( invoiceItem, transaction.invoiceItems )" data-ng-model="invoiceItem.qty" step="1" decimal-point required> </td>
+                            <td> <input data-ng-if="invoiceItem.item_type==1" class="form-control decimal" type="number" data-ng-change="calculateAmount( invoiceItem, transaction.invoiceItems )" data-ng-model="invoiceItem.rate" data-ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" decimal-point required> </td>
+                            <td> 
+                              <input data-ng-if="invoiceItem.item_type==1" class="form-control" type="number" data-ng-model="invoiceItem.amount" data-ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required> 
+                              <span data-ng-if="invoiceItem.item_type==2"> Subtotal: {{ invoiceItem.amount | number : 2 }} </span>
+                            </td>
+                            <td class="print-hidden" algin="center"> <button class="btn btn-icon btn-sm btn-link text-danger" data-ng-click="removeLine(transaction.invoiceItems, {{ invoiceItem.removeIndex }})"> <i class="icon-trash-o"> </i> </button> </td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                      <div class="row print-hidden">
+                        <div class="col-md-12">
+                          <div class="form-group btng mb-1">
+                            <button class="btn btn-outline-primary mr-1 mb-1" data-ng-click="addLines(transaction.invoiceItems, newInvoiceItem)">Add Lines</button>
+                            <button class="btn btn-outline-primary mr-1 mb-1" data-ng-click="clearAllLines(transaction.invoiceItems, newInvoiceItem)">Clear All Lines</button>
+                            <button class="btn btn-outline-primary mr-1 mb-1" data-ng-click="addSubTotal( transaction.invoiceItems )">Add Sub Total</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-7">
+                          <div class="row form-group">
+                            <div class="col-md-6 form-group"><label>Message displayed on invoice</label><textarea class="form-control" data-ng-model="transaction.invoice.message"></textarea></div>
+                            <div class="col-md-6"><label>Statement memo</label><textarea class="form-control" data-ng-model="transaction.invoice.statement_memo"></textarea></div>
+                            <div class="col-md-12 print-hidden">
+                              <div class="drag-drop-file">
+                                <form action="#/" class="dropzone" id="dpz-single-file"></form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-5 mb-1">
+                          <div class="form-group">
+                            <table class="table tbl-invc">
+                              <tr>
+                                <td width="50%" class="bdrT-none" style="border: none;">
+                                  <label>&nbsp;</label>
+                                    <select class="form-control" data-ng-model="transaction.invoice.discount_type_id" data-ng-change="calculateDiscount()" data-ng-init="invoice.invoice.discount_type_id='3'" style="height: 40px;">
+                                      <option value="1">Discount percent</option>
+                                      <option value="2">Discount value</option>
+                                      <option value="3">No discount</option>
+                                    </select>
+                                </td>
+                                <td width="30%" class="bdrT-none">
+                                  <label>Sub Total</label>
+                                  <input type="text" data-ng-if="transaction.invoice.discount_type!='No discount'" class="form-control" data-ng-model="transaction.invoice.discount_amount" data-ng-change="calculateDiscount()">
+                                  <input type="text" class="form-control hidden" data-ng-model="transaction.invoice.sub_total">
+                                </td>
+                                <td width="20%" align="right" class="bdrT-none">
+                                  <p>$ {{ transaction.invoice.sub_total | number : 2 }}</p>
+                                  <p>$ {{ discountValue | number : 2 }}</p>
+                                </td>
+                              </tr>
+                            <!-- </table>
+                            <table class="table tbl-invc col-md-6 col-md-offset-6"> -->
+                              <tr>
+                                <td style="border: none;">&nbsp;</td>
+                                <td style="vertical-align: middle;">Shipping</td>
+                                <td align="right"><input type="text" class="form-control" data-ng-model="transaction.invoice.shipping" data-ng-change="calculateTotal()"></td>
+                              </tr>
+                              <tr style="line-height: 2.5;">
+                                <td style="border: none;">&nbsp;</td>
+                                <td style="vertical-align: middle;">Total</td>
+                                <td align="right"><p style="margin: 0px;">$ {{ transaction.transaction.total | number : 2 }}</p><input type="hidden" class="form-control" data-ng-model="transaction.transaction.total"></td>
+                              </tr>
+                              <tr>
+                                <td style="border: none;">&nbsp;</td>
+                                <td style="vertical-align: middle;">Deposit</td>
+                                <td align="right"><input type="text" class="form-control" data-ng-model="transaction.invoice.deposit" data-ng-change="calculateTotal()"></td>
+                              </tr>
+                              <tr style="line-height: 2.5;">
+                                <td style="border: none;">&nbsp;</td>
+                                <td style="vertical-align: middle;">Balance Due</td>
+                                <td style="vertical-align: middle;" align="right"><p style="margin: 0px;">$ {{ transaction.balanceDue | number : 2 }}</p></td>
+                              </tr>
+                            </table>
+                          </div>
+                          <fieldset class="form-group has-feedback">
+                            <div class="help-block font-small-3 errors" data-ng-repeat="errorMessage in errorMessages"> {{ errorMessage }} </div>
+                          </fieldset>
+                        </div>
+                      </div>
+                      <div class="row form-group print-hidden">
+                        <div class="col-md-12 text-md-right btn-rgt-grp">
+                          <button class="btn btn-secondary mr-1 mb-1" data-ng-click="showDeleteTransactionDialog()">Delete</button>
+                          <button class="btn btn-secondary mr-1 mb-1" data-ng-click="print()">Print</button>
+                          <button class="btn btn-secondary mr-1 mb-1" data-ng-click="clearAll()">Clear</button>
+                          <button class="btn btn-primary mr-1 mb-1" data-ng-click="createOrUpdate(false)">Save & Close</input>
+                          <button class="btn btn-primary mb-1" data-ng-click="createOrUpdate(true)">Save & New</input>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            <!-- </form> -->
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

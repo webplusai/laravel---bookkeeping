@@ -1,0 +1,148 @@
+<div data-ng-controller="NewJournalEntryCtrl" class="robust-content container center-layout mt-2">
+  <div class="content-wrapper">
+    <div class="content-header row mb-1 print-hidden">
+      <div class="content-header-left col-md-9 col-xs-12">
+        <h2 class="content-header-title mb-0">Journal Entry No# {{ transaction.transaction.journal_entry_no }} </h2>
+        <div class="row breadcrumbs-top print-hidden">
+          <div class="breadcrumb-wrapper col-xs-12">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#/dashboard">Home</a></li>
+              <li class="breadcrumb-item"><a href="#/sales">Other</a></li>
+              <li class="breadcrumb-item active">Journal Entry
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div id="selectPersonType" class="slt-open-dd card select-person-type" sej-person-type-dialog> </div>
+
+      <div class="modal fade text-xs-left" id="newAccountDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" data-sej-account-dialog data-create-event="createAccount"> </div>
+
+      <div class="modal fade text-xs-left" id="newPersonDialog" tabindex="-1" role="dialog" data-labelledby="myModalLabel1" aria-hidden="true" data-sej-person-dialog data-create-event="createPerson"> </div>
+
+      <div class="modal fade text-xs-left" id="zeroWarningDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" data-sej-trxn-zero-warning-dialog> </div>
+
+      <div class="modal fade text-xs-left" id="deleteConfirmDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" data-sej-delete-confirm-dialog data-delete-event="deleteTransaction" data-target-name="invoice"> </div>
+
+      <p class="m-0">&nbsp;</p>
+    </div>
+
+    <div class="content-body print-hidden">
+      <section>
+        <div class="row">
+          <div class="col-xs-12">
+            <form class="form form-horizontal form-add-new-journal-entry" novalidate>
+              <div class="card">
+                  <div class="card-header dateH" style="display: inline-block;">
+                    <div class="col-md-4 mbv-1 hidden">
+                      <div class="input-group">
+                        <p class="inpt-grp-addon">Transaction Type</p>
+                        <input type="text" class="form-control" data-ng-model="transactionType" data-ng-init="transactionType='journal_entry'"/>
+                      </div>
+                    </div>
+                    <div class="col-md-4 mbv-1 hidden">
+                      <div class="input-group">
+                        <p class="inpt-grp-addon">Transaction Total</p>
+                        <input type="text" class="form-control" data-ng-model="transaction.transaction.total" data-ng-init="transaction.transaction.total=1"/>
+                      </div>
+                    </div>
+                    <div class="col-md-4 offset-md-4 mbv-1 text-md-right hidden">
+                      <div class="input-group">
+                        <p class="inpt-grp-addon">Transaction Type</p>
+                        <input type="text" tabindex="2" class="form-control" data-ng-model="transaction.transaction.transaction_type" data-ng-init="transaction.transaction.transaction_type=201"/>
+                      </div>
+                    </div>
+                    <div class="col-md-4 mbv-1 hidden">
+                      <div class="input-group">
+                        <p class="inpt-grp-addon">Table Name</p>
+                        <input type="text" class="form-control" data-ng-model="targetTableName" data-ng-init="targetTableName='customer'"/>
+                      </div>
+                    </div>
+                    <div class="form-group row has-feedback hidden">
+                      <label class="col-md-3 label-control"> Person Type </label>
+                      <input class="form-control hidden" data-ng-model="personListType" data-ng-init="personListType='payee'" placeholder="Name" type="text" tabindex="2">
+                    </div>
+                    <div class="col-md-4 mbv-1 to_date no-padding-right">
+                      <div class="input-group print-hidden">
+                        <p class="inpt-grp-addon"> Journal&nbsp;Date </p>
+                        <span class="input-group-addon"><i class="icon-calendar3"></i></span>
+                        <input type="text" class="form-control dp-month-year" data-ng-model="transaction.transaction.date"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body" id="base-style" style="display: inline-block;">
+                    <div class="card-block card-dashboard">
+                      <table class="table table-bordered tbl-invc table-responsive" id="journalEntryItems">
+                        <thead>
+                          <tr>
+                            <th class="print-hidden" width="5%">&nbsp;</th>
+                            <th width="5%" align="center">#</th>
+                            <th width="16%">Account</th>
+                            <th width="12%">Debits</th>
+                            <th width="12%">Credits</th>
+                            <th width="20%">Description</th>
+                            <th width="16%">Name</th>
+                            <th class="print-hidden" width="5%">&nbsp;</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <form class="form form-validation form-journal-entry-items" novalidate>
+                            <tr data-ng-repeat="journalEntryItem in transaction.journalEntryItems" data-ng-if="journalEntryItem.rank">
+                              <td class="print-hidden"> <button class="btn btn-link"> <i class="icon-hand-grab-o"> </i> </button> </td>
+                              <td align="center" class="valign-middle"> {{ journalEntryItem.rank }} </td>
+                              <td> <select data-ng-model="journalEntryItem.account" placeholder="Select an account..." data-ng-options="account.value as account.label for account in accountNamesByCategoryType track by account.value" data-account-dropdown data-add-new-event="showCreateAccountDialog"></select> </td>
+                              <td> <input class="form-control" type="number" tabindex="2" data-ng-model="journalEntryItem.debits" step="0.01"> </td>
+                              <td> <input class="form-control" type="number" data-ng-model="journalEntryItem.credits" step="0.01"> </td>
+                              <td> <input class="form-control" tabindex="2" data-ng-model="journalEntryItem.description"> </td>
+                              <td style="position: relative;">
+                                <select id="personDropdown{{ journalEntryItem.removeIndex }}" placeholder="Select a person..." data-ng-model="journalEntryItem.person" data-ng-options="customer.name as customer.type for customer in customerNames track by customer.name" data-add-new-dropdown data-person-dropdown-index="{{ journalEntryItem.removeIndex }}" data-add-new-event="selectPersonType" data-customer-supplier-dropdown></select>
+                              </td>
+                              <td class="print-hidden" algin="center"> <button class="btn btn-icon btn-sm btn-link text-danger" data-ng-click="removeLine(transaction.journalEntryItems, {{ journalEntryItem.removeIndex }})"> <i class="icon-trash-o"> </i> </button> </td>
+                            </tr>
+                          </form>
+                        </tbody>
+                      </table>
+
+                      <div class="row print-hidden">
+                        <div class="col-md-12">
+                          <div class="form-group btng mb-1">
+                            <button class="btn btn-outline-primary mr-1 mb-1" data-ng-click="addLines( transaction.journalEntryItems, newJournalEntryItem)">Add Lines</button>
+                            <button class="btn btn-outline-primary mr-1 mb-1" data-ng-click="clearAllLines( transaction.journalEntryItems, newJournalEntryItem)">Clear All Lines</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-7">
+                          <div class="row form-group">
+                            <div class="col-md-6"><label>Statement memo</label><textarea class="form-control" data-ng-model="transaction.transaction.statement_memo"></textarea></div>
+                            <div class="col-md-12 print-hidden">
+                              <div class="drag-drop-file">
+                                <form action="#/" class="dropzone" id="dpz-single-file"></form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <fieldset class="form-group has-feedback">
+                        <div class="help-block font-small-3 errors" data-ng-repeat="errorMessage in errorMessages"> {{ errorMessage }} </div>
+                      </fieldset>
+                      <div class="row form-group print-hidden">
+                        <div class="col-md-12 text-md-right btn-rgt-grp">
+                          <button class="btn btn-secondary mr-1 mb-1" data-ng-click="showDeleteTransactionDialog()">Delete</button>
+                          <button class="btn btn-secondary mr-1 mb-1" data-ng-click="print()">Print</button>
+                          <button class="btn btn-secondary mr-1 mb-1" data-ng-click="clearAll()">Clear</button>
+                          <button class="btn btn-primary mr-1 mb-1" data-ng-click="createOrUpdateJournalEntry(false)">Save & Close</input>
+                          <button class="btn btn-primary mb-1" data-ng-click="createOrUpdateJournalEntry(true)">Save & New</input>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

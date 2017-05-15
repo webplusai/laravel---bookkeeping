@@ -1,0 +1,152 @@
+<div data-ng-controller="DashboardCtrl" class="robust-content container center-layout mt-2">
+  <div class="content-wrapper">
+    <div class="content-header row  mb-1"> </div>
+    <div class="content-body">
+      <div class="row vertical-align">
+        <div class="col-xs-8">
+          <div class="cmp-name media">			
+            <div class="media-body">
+      			  <div class="img-comp">
+      				  <a href="#/company-profile"><img src="{{ companyLogo }}" alt="branding logo" width="60px"></a>
+      			  </div>
+      			  <div class="name-comp">
+      				  <h5 style='margin-bottom:0;'><b> {{ companyName }} </b></h5>
+      				  <date class="text-muted font-small-2"> {{ today }} </date>
+      			  </div>
+			      </div>
+          </div>
+        </div>
+        <div class="col-xs-4 text-xs-right">
+          <div class="form-group">
+            <label for="switcheryColor" class="card-title ml-1">Private Mode</label>
+            <input type="checkbox" id="switcheryColor" class="switchery" data-color="primary" checked/>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <label class="card-title ct-f-l">Income</label>
+              <div class="heading-elements mv-static">
+                <ul class="list-inline mb-0">
+                  <li> <a>Last 365 Days</a> </li>
+                </ul>
+              </div>
+            </div>
+            <div class="card-body relative">
+              <div class="card-block">
+                <div id="incomeChart" style="width: 100%;"></div>
+                <div class="chartFlx">
+                  <div>
+                    <span> $ {{ openInvoices | number : 2 }}</span>
+                    <span>Open Invoice</span>
+                  </div>
+                  <div>
+                    <span> $ {{ overDue | number : 2 }}</span>
+                    <span>Overdue</span>
+                  </div>
+                  <div>
+                    <span> $ {{ paidLast30Days | number : 2 }} </span>
+                    <span>Paid Last 30 Days</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <label class="card-title ct-f-l">Expenses</label>
+              <label class="card-title chart-h-amt"> $ {{ totalExpense | number : 2 }} </label>
+              <div class="heading-elements mv-static">
+                <fieldset>
+                  <select class="form-control" data-ng-model="expensePeriod" data-ng-init="expensePeriod='Last 30 days'" data-ng-change="drawExpenseChart()">
+                    <option>Last 30 days</option>
+                    <option>This year</option>
+                    <option>This month</option>
+                    <option>This quarter</option>
+                  </select>
+                </fieldset>
+              </div>
+            </div>
+            <div class="card-body relative">
+              <div class="card-block">
+                <div id="expenseChart"></div>
+                <div class="chartFlx">
+                  <div>
+                    <span> $ {{ thisYearInfo.thisYearExpense | number : 2 }} </span>
+                    <span>This Year</span>
+                  </div>
+                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <label class="card-title ct-f-l">Sales</label>
+              <label class="card-title chart-h-amt"> $ {{ totalSales | number : 2 }} </label>
+              <div class="heading-elements mv-static">
+                <fieldset>
+                  <select class="form-control" data-ng-model="salesPeriod" data-ng-change="drawSalesChart()" data-ng-init="salesPeriod='Last 30 days'">
+                    <option>Last 30 days</option>
+                    <option>This year</option>
+                    <option>This month</option>
+                    <option>This quarter</option>
+                  </select>
+                </fieldset>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-block">
+                <div id="salesChart"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <label class="card-title ct-f-l">Profit and Loss</label>
+              <label class="card-title chart-h-amt"> $ {{ totalProfit - totalLoss | number : 2 }} </label>
+              <div class="heading-elements mv-static">
+                <fieldset>
+                  <select class="form-control" id="basicSelect" data-ng-model="profitLossPeriod" data-ng-change="drawProfitAndLossChart()" data-ng-init="profitLossPeriod='Last 30 days'">
+                    <option>Last 30 days</option>
+                    <option>This year</option>
+                    <option>This month</option>
+                    <option>This quarter</option>
+                  </select>
+                </fieldset>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-block">
+                <div id="profitAndLossChart"></div>
+                <div class="chartFlx ps-static">
+                  <div>
+                    <span> ${{ totalProfit - totalLoss | number : 2 }} </span>
+                    <span> Net Income </span>
+                  </div>
+                  <div class="legendColor">
+                    <span> $ {{ totalProfit | number : 2 }} </span>
+                    <span> Income </span>
+                  </div>
+                  <div class="legendColor">
+                    <span> $ {{ totalLoss | number : 2 }} </span>
+                    <span> Expenses </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

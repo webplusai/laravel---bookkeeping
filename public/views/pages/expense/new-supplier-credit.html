@@ -1,0 +1,193 @@
+<div data-ng-controller="NewSupplierCreditCtrl" class="robust-content container center-layout mt-2">
+  <div class="content-wrapper">
+    <div class="content-header row mb-1">
+      <div class="content-header-left col-md-9 col-xs-12">
+        <h2 class="content-header-title mb-0">New Supplier Credit</h2>
+        <div class="row breadcrumbs-top print-hidden">
+          <div class="breadcrumb-wrapper col-xs-12">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#/dashboard">Home</a></li>
+              <li class="breadcrumb-item"><a href="#/expense">Expense</a></li>
+              <li class="breadcrumb-item active">New Supplier Credit</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div sej-new-expenses-dropdown> </div>
+
+      <div id="selectPersonType" class="slt-open-dd card select-person-type" sej-person-type-dialog> </div>
+
+      <div class="modal fade text-xs-left" id="newPersonDialog" tabindex="-1" role="dialog" data-labelledby="myModalLabel1" aria-hidden="true" data-sej-person-dialog data-create-event="createPerson"> </div>
+
+      <div class="modal fade text-xs-left" id="newAccountDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" data-sej-account-dialog data-create-event="createAccount"> </div>
+
+      <div class="modal fade text-xs-left" id="productServiceDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" data-sej-product-service-dialog data-create-event="createProductService"> </div>
+
+      <div class="modal fade text-xs-left" id="productCategoryDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" data-sej-product-category-dialog data-create-event="createProductCategory" data-update-event="updateProductCategory"> </div>
+
+      <div class="modal fade text-xs-left" id="deleteConfirmDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" data-sej-delete-confirm-dialog data-delete-event="deleteTransaction" data-target-name="expense"> </div>
+
+      <div class="modal fade text-xs-left" id="zeroWarningDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" data-sej-trxn-zero-warning-dialog> </div>
+      
+      <p class="m-0">&nbsp;</p>
+    </div>
+
+    <div class="content-body">
+      <section>
+        <div class="row">
+          <div class="col-xs-12">
+            <form class="form form-horizontal" novalidate>
+              <div class="card">
+                <div class="card-header dateH">
+                  <div class="col-md-4 offset-md-4 mbv-1 text-md-right hidden">
+                    <div class="input-group">
+                      <p class="inpt-grp-addon">Transaction Type</p>
+                      <input type="text" tabindex="2" class="form-control" data-ng-model="transactionType" data-ng-init="transactionType='supplier_credit'"/>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mbv-1 hidden">
+                      <div class="input-group">
+                        <p class="inpt-grp-addon">Table Name</p>
+                        <input type="text" class="form-control" data-ng-model="targetTableName" data-ng-init="targetTableName='customer'"/>
+                      </div>
+                  </div>
+                  <div class="form-group row has-feedback hidden">
+                    <label class="col-md-3 label-control"> Person Type </label>
+                    <input class="form-control hidden" data-ng-model="personListType" data-ng-init="personListType='supplier'" placeholder="Name" type="text" tabindex="2">
+                  </div>
+                  <span class="print-show"> <div style="width: 100px; display: inline-block;"> Customer: </div> <div style=" display: inline-block;"> {{ transaction.transaction.customer }} </div> </span>
+                  <span class="print-show"> <div style="width: 100px; display: inline-block;"> Date: </div> <div style=" display: inline-block;"> {{ transaction.transaction.date }} </div> </span>
+                  <div class="col-md-4 mbv-1 no-padding">
+                    <select id="personDropdown" placeholder="Select a person..." data-ng-model="transaction.transaction.supplier" data-ng-options="supplier as 'Supplier' for supplier in supplierNames track by supplier" data-add-new-dropdown data-add-new-event="selectPersonType" data-customer-supplier-dropdown>
+                    </select>
+                  </div>
+                  <div class="col-md-4 offset-md-4 mbv-1  text-md-right expense_date no-padding print-hidden">
+                    <div class="input-group">
+                      <p class="inpt-grp-addon">Payment</p>
+                      <span class="input-group-addon"><i class="icon-calendar3"></i></span>
+                      <input type="text" tabindex="2" class="form-control dp-month-year" data-ng-model="transaction.transaction.date"/>
+                    </div>
+                  </div>
+                  <div class="col-md-4 offset-md-4 mbv-1 text-md-right hidden">
+                    <div class="input-group">
+                      <p class="inpt-grp-addon">Transaction Type</p>
+                      <input type="text" tabindex="2" class="form-control" data-ng-model="transaction.transaction.transaction_type" data-ng-init="transaction.transaction.transaction_type=104"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body" id="base-style">
+                  <div class="card-block card-dashboard">
+                    <!--Account Details-->
+                    <div class="account-details">
+                      <h4 class="mv-center">Account Details</h4>
+                      <table class="table table-bordered tbl-invc table-responsive table-account-details">
+                        <thead>
+                          <tr>
+                            <th class="print-hidden" width="3%">&nbsp;</th>
+                            <th width="3%" style="text-align: center;">#</th>
+                            <th width="30%">Account</th>
+                            <th width="43%">Description</th>
+                            <th width="12%">Amount</th>
+                            <th class="print-hidden" width="3%">&nbsp;</th>
+                          </tr>
+                        </thead>
+                        <tbody ui-sortable="sortableOptions" data-ng-model="transaction.supplierCreditAccounts">
+                          <tr data-ng-repeat="supplierCreditAccount in transaction.supplierCreditAccounts" data-ng-if="supplierCreditAccount.rank">
+                            <td class="print-hidden valign-middle"><button class="btn btn-link"><i class="icon-hand-grab-o"></i></button></td>
+                            <td class="valign-middle" style="text-align: center;"> {{ supplierCreditAccount.rank }} </td>
+                            <td> <select data-ng-model="supplierCreditAccount.account" placeholder="Select an account..." data-ng-options="account.value as account.label for account in accountNamesByCategoryType track by account.value" data-account-dropdown data-add-new-event="showCreateAccountDialog"></select> </td>
+                            <td><textarea class="form-control" tabindex="2" data-ng-model="supplierCreditAccount.description"></textarea></td>
+                            <td><input class="form-control decimal" type="number" tabindex="2" data-ng-model="supplierCreditAccount.amount" data-ng-change="calculateTotal()" data-ng-patern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" decimal-point></td>
+                            <td class="print-hidden valign-middle" align="center"><button class="btn btn-icon btn-sm btn-link text-danger" data-ng-click="removeLine(transaction.supplierCreditAccounts, {{ supplierCreditAccount.removeIndex }})"><i class="icon-trash-o"></i></button></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <div class="row print-hidden">
+                        <div class="col-md-12">
+                          <div class="form-group btng">
+                            <button class="btn btn-outline-primary mr-1 mb-1" data-ng-click="addLines(transaction.supplierCreditAccounts, newSupplierCreditAccount)">Add Lines</button>
+                            <button class="btn btn-outline-primary mr-1 mb-1" data-ng-click="clearAllLines(transaction.supplierCreditAccounts, newSupplierCreditAccount)">Clear All Lines</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--Account Details-->
+                    <div class="items-details">
+                      <h4 class="mv-center"><button class="btn btn-link icon-caret-up" onclick="CommonFunc().toggle('table-item-details',this)"></button>Items Details</h4>
+                      <div class="table-item-details" style="display: none;">
+                        <table class="table table-bordered tbl-invc table-responsive">
+                          <thead>
+                            <tr>
+                              <th class="print-hidden" width="3%">&nbsp;</th>
+                              <th width="3%" style="text-align: center;">#</th>
+                              <th width="23%">Product/Service</th>
+                              <th width="23%">Description</th>
+                              <th width="12%">QTY</th>
+                              <th width="12%">Rate</th>
+                              <th width="12%">Amount</th>
+                              <th class="print-hidden" width="3%">&nbsp;</th>
+                            </tr>
+                          </thead>
+                          <tbody ui-sortable="sortableOptions" data-ng-model="transaction.supplierCreditItems">
+                            <tr data-ng-repeat="supplierCreditItem in transaction.supplierCreditItems" data-ng-if="supplierCreditItem.rank">
+                              <td class="print-hidden valign-middle"><button class="btn btn-link"><i class="icon-hand-grab-o"></i></button></td>
+                              <td class="valign-middle" style="text-align: center;"> {{ supplierCreditItem.rank }} </td>
+                              <td><select placeholder="Select a product/service..." tabindex="2" data-ng-options="productService as productService for productService in productServiceNames track by productService" data-ng-model="supplierCreditItem.product_service" data-add-new-dropdown data-add-new-event="showCreateProductServiceDialog" data-ng-change="setProductServiceRate( supplierCreditItem.product_service, productServices, supplierCreditItem, 'purchase_price' )"></select> <span class="print-show"> {{ supplierCreditItem.product_service }} </span> </td>
+                              <td><textarea class="form-control" tabindex="2" data-ng-model="supplierCreditItem.description"></textarea></td>
+                              <td><input class="form-control" type="number" tabindex="2" data-ng-model="supplierCreditItem.qty" data-ng-change="calculateAmount( supplierCreditItem, transaction.supplierCreditItems )" data-ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="1" decimal-point></td>
+                              <td><input class="form-control decimal" type="number" tabindex="2" data-ng-model="supplierCreditItem.rate" data-ng-change="calculateAmount( supplierCreditItem, transaction.supplierCreditItems )" data-ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="1" decimal-point></td>
+                              <td><input class="form-control decimal" type="number" tabindex="2" data-ng-model="supplierCreditItem.amount" data-ng-change="calculateTotal()" data-ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="1" decimal-point></td>
+                              <td class="print-hidden valign-middle" align="center"><button class="btn btn-icon btn-sm btn-link text-danger" data-ng-click="removeLine(transaction.supplierCreditItems, {{ supplierCreditItem.removeIndex }})"><i class="icon-trash-o"></i></button></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <div class="row print-hidden">
+                          <div class="col-md-12">
+                            <div class="form-group btng">
+                              <button class="btn btn-outline-primary mr-1 mb-1" data-ng-click="addLines(transaction.supplierCreditItems, newSupplierCreditItem)">Add Lines</button>
+                              <button class="btn btn-outline-primary mr-1 mb-1" data-ng-click="clearAllLines(transaction.supplierCreditItems, newSupplierCreditItem)">Clear All Lines</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <div class="col-md-4">
+                        <label>Statement memo</label>
+                        <textarea class="form-control" data-ng-model="transaction.supplierCredit.statement_memo"></textarea>
+                      </div>
+                      <div class="col-md-8 print-hidden">
+                        <div class="drag-drop-file mv-0">
+                          <form action="#" class="dropzone" id="dpz-single-file"></form>
+                          <form action="#/" class="dropzone" id="dpz-single-file"></form>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-8"> </div>
+                      <div class="col-md-4">
+                        <fieldset class="form-group has-feedback">
+                          <div class="help-block font-small-3 errors" data-ng-repeat="errorMessage in errorMessages"> {{ errorMessage }} </div>
+                        </fieldset>
+                      </div>
+                    </div>
+                    <div class="row form-group print-hidden">
+                      <div class="col-md-12 text-md-right btn-rgt-grp">
+                        <button class="btn btn-secondary mr-1 mb-1" data-ng-click="showDeleteTransactionDialog()">Delete</button>
+                        <button class="btn btn-secondary mr-1 mb-1" data-ng-click="print()">Print</button>
+                        <button class="btn btn-secondary mr-1 mb-1" data-ng-click="clearAll()">Clear</button>
+                        <button class="btn btn-primary mr-1 mb-1" data-ng-click="createOrUpdate(false)">Save & Close</button>
+                        <button class="btn btn-primary mb-1" data-ng-click="createOrUpdate(true)">Save & New</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

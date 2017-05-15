@@ -1,0 +1,134 @@
+<div data-ng-controller="UserProfileCtrl" class="robust-content container center-layout mt-2">
+  <div class="content-wrapper">
+    <div class="content-header row mb-1">
+      <div class="content-header-left col-md-9 col-xs-12">
+        <h2 class="content-header-title mb-0">User Profile</h2>
+        <div class="row breadcrumbs-top">
+          <div class="breadcrumb-wrapper col-xs-12">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#/dashboard">Home</a></li>
+              <li class="breadcrumb-item active">User Profile</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <div class="content-header-right text-md-right col-md-3 col-xs-12">
+        <div class="form-group"></div>
+        <!-- Round Outline Icon Buttons-->
+       &nbsp;
+      </div>
+      <p>&nbsp;</p>
+    </div>
+
+    <div class="content-body">
+      <section>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="card">
+              <div class="card-header">
+                 <h4>Heading</h4>
+              </div>
+              <div class="card-body" id="base-style">
+                <div class="card-block card-dashboard">
+                    <div class="row pro-con">
+                      <div class="prof-img col-md-5">
+                        <br>
+                        <img src="img/portrait/medium/user-1.png" alt="" class="img-responsive">
+                        <br><br>
+                        <p class="prof-p1">Enter Your Informations</p>
+                        <p class="prof-p2">Please fill in the following fields</p>
+                      </div>
+                      <form class="form cp-mrgn validations" novalidate>
+                        <div class="col-md-7 pro-box">
+                          <div class="form-group has-feedback hidden">
+                            <label class="label-control">Table Name</label>
+                            <input class="form-control" data-ng-model="user.tableName" data-ng-init="user.tableName='user_profile'" placeholder="" type="text" tabindex="1">
+                            <div class="help-block font-small-3"></div>
+                          </div>
+                          <div class="form-group has-feedback">
+                            <label class="label-control">Name</label>
+                            <input class="form-control" data-ng-model="user.name" placeholder="" type="text" tabindex="1" required data-validation-required-message= "Please enter name.">
+                            <div class="help-block font-small-3"></div>
+                          </div>
+                          <div class="form-group has-feedback has-success">
+                            <label class="label-control">Email</label>
+                            <input class="form-control form-control-success" data-ng-model="user.email" placeholder="" type="email" tabindex="2" required data-validation-required-message= "Please enter email address.">
+                            <div class="help-block font-small-3"></div>
+                          </div>
+                          <div class="form-group has-feedback hidden">
+                            <label class="label-control">Email Verified</label>
+                            <input class="form-control" data-ng-model="user.email_verified" data-ng-init="user.email_verified=0" placeholder="" type="text" tabindex="1">
+                            <div class="help-block font-small-3"></div>
+                          </div>
+                          <div class="form-group has-feedback has-success">
+                            <label class="label-control">Mobile</label>
+                            <input class="form-control form-control-success" data-ng-model="user.mobile" placeholder="" type="text" tabindex="3" data-validation-containsnumber-regex="(\d)+" data-validation-containsnumber-message="No Characters Allowed, Only Numbers" >
+                            <div class="help-block font-small-3"></div>
+                          </div>
+                          <div class="form-group has-feedback hidden">
+                            <label class="label-control">Mobile Verified</label>
+                            <input class="form-control" data-ng-model="user.mobile_verified" data-ng-init="user.mobile_verified=0" placeholder="" type="text" tabindex="1">
+                            <div class="help-block font-small-3"></div>
+                          </div>
+                          <div class="form-group has-feedback">
+                            <label class="label-control">Current Password</label>
+                            <input class="form-control" data-ng-model="user.current_password" placeholder="" type="password" tabindex="4" >
+                            <label class="text-muted font-small-3">Leave it blank if you do not change your password.</label>
+                            <div class="help-block font-small-3"></div>
+                          </div>
+                          <div class="form-group has-feedback">
+                            <label class="label-control">New Password</label>
+                            <input class="form-control" data-ng-model="user.new_password" placeholder="" type="password" tabindex="5" >
+                            <div class="help-block font-small-3"></div>
+                          </div>
+                          <div class="form-group has-feedback">
+                            <label class="label-control">New Password Confirmation</label>
+                            <input class="form-control" data-ng-model="user.new_password_confirmation" placeholder="" type="password" tabindex="5" >
+                            <div class="help-block font-small-3"></div>
+                          </div>
+                          <div class="form-group has-feedback">
+                            <label class="label-control">Address</label>
+                            <textarea class="form-control" data-ng-model="user.address"></textarea>
+                            <div class="help-block font-small-3"></div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group has-feedback">
+                                <label class="label-control">City</label>
+                                <input type="text" class="form-control" data-ng-model="user.city" tabindex="8">
+                                <div class="help-block font-small-3"></div>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group has-feedback">
+                                <label class="label-control">Country</label>
+                                <select class="form-control" id="countryDropdown" data-ng-model="user.country" data-ng-init="user.country='Select your country'"></select>
+                                <div class="help-block font-small-3"></div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-4"> </div>
+                              <div class="col-md-8"> 
+                                <fieldset class="form-group has-feedback">
+                                  <div class="help-block font-small-3 errors" data-ng-repeat="errorMessage in errorMessages"> {{ errorMessage }} </div>
+                                </fieldset>
+                              </div>
+                            </div>
+                            <div class="col-md-12 col-xs-12 text-md-right">
+                              <button type="button" class="btn grey btn-outline-secondary mt-1 btn-block" data-ng-click="goBack()">Cancel</button>
+                              <button type="submit" class="btn btn-primary mt-1 btn-block" id="type-success">Save</button>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </div>
+</div>

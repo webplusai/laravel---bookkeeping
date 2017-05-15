@@ -1,0 +1,226 @@
+<div data-ng-controller="NewPaymentCtrl" class="robust-content container center-layout mt-2">
+  <div class="content-wrapper">
+    <div class="content-header row mb-1">
+      <div class="content-header-left col-md-9 col-xs-12">
+        <h2 class="content-header-title mb-0">Receive Payment</h2>
+        <div class="row breadcrumbs-top print-hidden">
+          <div class="breadcrumb-wrapper col-xs-12">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#/dashboard">Home</a></li>
+              <li class="breadcrumb-item"><a href="#/sales">Sales</a></li>
+              <li class="breadcrumb-item active">Receive Payment
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      
+      <div sej-new-sales-dropdown> </div>
+
+      <div id="selectPersonType" class="slt-open-dd card select-person-type" sej-person-type-dialog> </div>
+
+      <div class="modal fade text-xs-left" id="newPersonDialog" tabindex="-1" role="dialog" data-labelledby="myModalLabel1" aria-hidden="true" data-sej-person-dialog data-create-event="createPerson"> </div>
+
+      <div class="modal fade text-xs-left" id="newAccountDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" data-sej-account-dialog data-create-event="createAccount"> </div>
+
+      <div class="modal fade text-xs-left" id="deleteConfirmDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" data-sej-delete-confirm-dialog data-delete-event="deleteTransaction" data-target-name="payment"> </div>
+
+      <div class="modal fade text-xs-left" id="zeroWarningDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" data-sej-trxn-zero-warning-dialog> </div>
+
+      <p class="m-0">&nbsp;</p>
+    </div>
+
+    <div class="content-body">
+      <section>
+        <div class="row">
+          <div class="col-xs-12">
+            <form class="form form-horizontal" novalidate>
+              <div class="card">
+                <div class="card-body" id="base-style">
+                  <div class="card-block card-dashboard">
+                    <div class="row" style="padding-left: 30px; padding-right: 30px; margin-bottom: 20px; margin-top: 30px;">
+                      <div class="col-md-12 hidden">
+                        <div class="form-group row">
+                          <label class="col-md-2 label-control">Transaction Type</label>
+                          <div class="col-md-6">
+                            <input type="text" class="form-control" data-ng-model="transactionType" data-ng-init="transactionType='payment'"/>
+                          </div>
+                        </div>
+                        <div class="col-md-4 offset-md-4 mbv-1 text-md-right hidden">
+                          <div class="input-group">
+                            <p class="inpt-grp-addon">Transaction Type</p>
+                            <input type="text" tabindex="2" class="form-control" data-ng-model="transaction.transaction.transactionType" data-ng-init="transaction.transaction.transaction_type=2"/>
+                          </div>
+                        </div>
+                        <div class="col-md-4 offset-md-4 mbv-1 text-md-right hidden">
+                          <div class="input-group">
+                            <p class="inpt-grp-addon">Status</p>
+                            <input type="text" tabindex="2" class="form-control" data-ng-model="transaction.transaction.status" data-ng-init="transaction.transaction.status=1"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4 mbv-1 hidden">
+                          <div class="input-group">
+                            <p class="inpt-grp-addon">Table Name</p>
+                            <input type="text" class="form-control" data-ng-model="targetTableName" data-ng-init="targetTableName='customer'"/>
+                          </div>
+                      </div>
+                      <div class="form-group row has-feedback hidden">
+                        <label class="col-md-3 label-control"> Person Type </label>
+                        <input class="form-control hidden" data-ng-model="personListType" data-ng-init="personListType='customer'" placeholder="Name" type="text" tabindex="1">
+                      </div>
+                      <span class="print-show"> <div style="width: 100px; display: inline-block;"> Customer: </div> <div style=" display: inline-block;"> {{ transaction.transaction.customer }} </div> </span>
+                      <span class="print-show"> <div style="width: 100px; display: inline-block;"> Account: </div> <div style=" display: inline-block;"> {{ transaction.payment.account }} </div> </span>
+                      <span class="print-show"> <div style="width: 100px; display: inline-block;"> Invoice No: </div> <div style=" display: inline-block;"> {{ transaction.payment.invoice_id }} </div> </span>
+                      <span class="print-show"> <div style="width: 100px; display: inline-block;"> Date </div> <div style=" display: inline-block;"> {{ transaction.transaction.date }} </div> </span>
+                      <div class="col-md-6 mbv-1 mb-1">
+                        <select id="personDropdown" placeholder="Select a person..." data-ng-options="customer as 'Customer' for customer in customerNames track by customer" data-ng-model="transaction.transaction.customer" data-add-new-dropdown data-add-new-event="selectPersonType" data-change-event="retrieveCustomerInvoicesAndCreditNotes" data-customer-supplier-dropdown>
+                        </select>
+                      </div>                  
+                      <div class="col-md-6 mbv-1">
+                        <select data-ng-model="transaction.payment.account" placeholder="Select an account..." data-ng-options="account.value as account.label for account in accountNamesByCategoryType track by account.value" data-account-dropdown data-add-new-event="showCreateAccountDialog"></select>
+                      </div>
+                      <div class="col-md-12 mbv-1 print-hidden">
+                        <fieldset>
+                          <div class="input-group">
+                            <input class="form-control" placeholder="Find by invoice number" type="text" data-ng-model="transaction.payment.invoice_id">
+                              <span class="input-group-btn">
+                                <button class="btn btn-primary" style="height: 42px;" type="button" data-ng-click="searchByInvoiceId()"><i class="icon-search4"></i></button>
+                              </span>
+                          </div>
+                        </fieldset>
+                      </div>
+                    </div>
+
+                    <h4 data-ng-if="transaction.transaction.customerInvoices&&transaction.transaction.customerInvoices.length!=0"> Invoices </h4>
+                    <table class="table table-bordered tbl-invc table-responsive valign" id="customerInvoices" data-ng-if="transaction.transaction.customerInvoices&&transaction.transaction.customerInvoices.length!=0">
+                      <thead>
+                        <tr>
+                          <td width="5%" align="center"> <input type="checkbox" data-ng-model="transaction.allInvoicesChecked" data-ng-change="checkAllInvoices()"> </td> 
+                          <th width="35%">Description</th>
+                          <th width="15%">Due Date</th>
+                          <th width="15%">Original Amount</th>
+                          <th width="15%">Open Balance</th>
+                          <th width="15%">Payment</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <form class="form form-validation form-invoice-items" novalidate>
+                          <tr data-ng-repeat="invoice in transaction.transaction.customerInvoices">
+                            <td align="center" style="vertical-align: middle;"> <input type="checkbox" data-ng-model="invoice.checked" data-ng-change="checkInvoice( invoice )"> </td>
+                            <td style="vertical-align: middle;"> Invoice # {{ invoice.invoice_receipt_no }} ( {{ invoice.date }} ) </td>
+                            <td style="vertical-align: middle;"> {{ invoice.due_date }} </td>
+                            <td style="vertical-align: middle;"> {{ invoice.total }} </td>
+                            <td style="vertical-align: middle;"> {{ invoice.balance }} </td>
+                            <td>
+                              <input class="form-control" type="number" data-ng-model="invoice.amount" data-ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required data-ng-change="setInvoiceAmount( invoice )">
+                            </td>
+                          </tr>
+                        </form>
+                      </tbody>
+                    </table>
+
+                    <h4 data-ng-if="transaction.transaction.creditNotes&&transaction.transaction.creditNotes.length!=0"> Credits </h4>
+                    <table class="table table-bordered tbl-invc table-responsive valign" id="creditNotes" data-ng-if="transaction.transaction.creditNotes&&transaction.transaction.creditNotes.length!=0">
+                      <thead>
+                        <tr>
+                          <td width="5%" align="center"> <input type="checkbox" data-ng-model="transaction.allCreditNotesChecked" data-ng-change="checkAllCreditNotes()"> </td> 
+                          <th width="35%">Description</th>
+                          <th width="15%">Due Date</th>
+                          <th width="15%">Original Amount</th>
+                          <th width="15%">Open Balance</th>
+                          <th width="15%">Payment</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <form class="form form-validation form-credit-note-items" novalidate>
+                          <tr data-ng-repeat="creditNote in transaction.transaction.creditNotes">
+                            <td align="center" style="vertical-align: middle;"> <input type="checkbox" data-ng-model="creditNote.checked" data-ng-change="checkCreditNote( creditNote )"> </td>
+                            <td style="vertical-align: middle;"> Credit Note # {{ creditNote.invoice_receipt_no }} ( {{ creditNote.date }} ) </td>
+                            <td style="vertical-align: middle;"> {{ creditNote.due_date }} </td>
+                            <td style="vertical-align: middle;"> {{ creditNote.total }} </td>
+                            <td style="vertical-align: middle;"> {{ creditNote.balance }} </td>
+                            <td>
+                              <input class="form-control" type="number" data-ng-model="creditNote.amount" data-ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required data-ng-change="setCreditNoteAmount( creditNote )">
+                            </td>
+                          </tr>
+                        </form>
+                      </tbody>
+                    </table>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group row print-hidden">
+                          <label class="col-md-2 label-control">Payment</label>
+                          <div class="col-md-6 from_date">
+                            <div class="input-group">
+                              <input type="text" class="form-control dp-month-year" data-ng-model="transaction.transaction.date"/>
+                              <span class="input-group-addon"><i class="icon-calendar3"></i></span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group row">
+                          <label class="col-md-2 label-control">Amount Received</label>
+                          <div class="col-md-6">
+                            <input type="text" class="form-control" data-ng-model="transaction.transaction.total"/>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group row">
+                          <label class="col-md-2 label-control">Note</label>
+                          <div class="col-md-6">
+                             <textarea class="form-control" placeholder="Note" data-ng-model="transaction.payment.note"></textarea>
+                          </div>
+                        </div>
+                        <div class="form-group row hidden">
+                          <label class="col-md-2 label-control">Id</label>
+                          <div class="col-md-6">
+                             <textarea class="form-control" placeholder="Note" data-ng-model="transaction.payment.id"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-8">
+                        <div class="form-group row print-hidden">
+                          <label class="col-md-3 label-control">File Upload</label>
+                          <div class="col-md-9">
+                            <div class="drag-drop-file">
+                              <form action="#/" class="dropzone" id="dpz-single-file"></form>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4"> </div>
+                          <div class="col-md-8">
+                            <fieldset class="form-group has-feedback">
+                              <div class="help-block font-small-3 errors" data-ng-repeat="errorMessage in errorMessages"> {{ errorMessage }} </div>
+                            </fieldset>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-12 text-md-right btn-4grp" style="top: -20px">
+                            <div class="form-group btn-rgt-grp print-hidden">
+                              <button class="btn btn-secondary mr-1 mb-1" data-ng-click="showDeleteTransactionDialog()">Delete</button>
+                              <button class="btn btn-secondary mb-1 mr-1" data-ng-click="print()">Print</button>
+                              <button class="btn btn-secondary mb-1 mr-1" data-ng-click="clearAll()">Clear</button>
+                              <button class="btn btn-primary mb-1 mr-1" data-ng-click="createOrUpdate(false)">Save & Close</button>
+                              <button class="btn btn-primary mb-1" data-ng-click="createOrUpdate(true)">Save & New</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="modal-title">Add New Category</h4>
+    </div>
+    <form class="form form-horizontal form-product-category" novalidate>
+      <div class="modal-body">
+        <div class="form-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row hidden">
+                <label class="col-md-3 label-control">Table Name</label>
+                <div class="col-md-7">
+                  <input class="form-control" data-ng-model="productCategory.tableName" data-ng-init="productCategory.tableName='product_category'" placeholder="Name" type="text">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group row">
+                <label class="col-md-3 label-control">Name</label>
+                <div class="col-md-7">
+                  <input class="form-control" data-ng-model="productCategory.name" placeholder="Name" type="text" required data-validation-required-message="Please input name.">
+                  <div class="help-block font-small-3"> </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6"> </div>
+          <div class="col-md-6">
+            <fieldset class="form-group has-feedback">
+              <div class="help-block font-small-3 errors" data-ng-repeat="errorMessage in productCategoryDialogErrorMessages"> {{ errorMessage }} </div>
+            </fieldset>
+          </div>
+        </div> 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Close</button>
+        <button class="btn btn-primary" type="submit" data-ng-click="bAddNewCategory=false" data-ng-show="!isEditDialog"><i class="icon-plus-circle"></i> Save and Close </button>
+        <button class="btn btn-primary" type="submit" data-ng-click="bAddNewCategory=true" data-ng-show="!isEditDialog"><i class="icon-plus-circle"></i> Save and Add New</button>
+        <button class="btn btn-primary" type="submit" data-ng-show="isEditDialog"><i class="icon-edit"></i> Edit </button>
+      </div>
+    </form>
+  </div>
+</div>

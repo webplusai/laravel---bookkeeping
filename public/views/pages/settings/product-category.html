@@ -1,0 +1,50 @@
+<div data-ng-controller="ProductCategoryCtrl" class="robust-content container center-layout mt-2">
+  <div class="content-wrapper">
+    <div class="content-header row mb-1">
+      <div class="content-header-left col-md-6 col-xs-12">
+        <h2 class="content-header-title mb-0">Product Categories</h2>
+        <div class="row breadcrumbs-top">
+          <div class="breadcrumb-wrapper col-xs-12">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#/dashboard">Home</a></li>
+              <li class="breadcrumb-item active">Product Category</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <div class="content-header-right text-md-right col-md-6 col-xs-12 topHR-Btn">
+        <button type="button" class="btn btn-primary ncs" data-ng-click="showCreateProductCategoryDialog()"><i class="icon-plus-circle"></i> Add New Product Category</button>
+      </div>
+      <div class="modal fade text-xs-left" id="productCategoryDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" data-sej-product-category-dialog data-create-event="createProductCategory" data-update-event="updateProductCategory"> </div>
+
+      <div class="modal fade text-xs-left" id="deleteConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" data-sej-delete-confirm-dialog data-delete-event="deleteProductCategory" data-target-name="account"> </div>
+
+      <p class="m-0">&nbsp;</p>
+    </div>
+
+    <div class="content-body">
+      <section>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Heading</h4>
+                <div class="heading-elements">
+                  <ul class="list-inline mb-0">
+                    <li><a data-action="collapse"><i class="icon-file-excel-o"></i></a></li>
+                    <li><a data-action="reload"><i class="icon-print"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-body" id="base-style">
+                <div class="card-block card-dashboard">
+                  <table id="datatable" class="table table-striped table-bordered"></table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,125 @@
+<div data-ng-controller="AuditHistoryCtrl" class="robust-content container center-layout mt-2">
+  <div class="content-wrapper">
+    <div class="content-header row mb-1">
+      <div class="content-header-left col-md-9 col-xs-12">
+        <h2 class="content-header-title mb-0">Audit History</h2>
+        <div class="row breadcrumbs-top">
+          <div class="breadcrumb-wrapper col-xs-12">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#/dashboard">Home</a></li>
+              <li class="breadcrumb-item active">Audit History</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <p class="m-0">&nbsp;</p>
+    </div>
+
+    <div class="content-body">
+      <section>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">History of this transaction <a href="#/{{ auditHistoryList[0].target_name.replace( ' ', '-' ).toLowerCase() }}?trxnId={{ auditHistoryList[0].record_id }}"> {{ auditHistoryList[0].target_name }} No. {{ auditHistoryList[0].trxn_id }} </a> </h4>
+                <div class="heading-elements">
+                  <ul class="list-inline mb-0">
+                    <li><a data-action="collapse" title="Download Excel"><i class="icon-file-excel-o"></i></a></li>
+                    <li><a data-action="reload" title="Print"><i class="icon-print"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-body" id="base-style">
+                <div class="card-block card-dashboard">
+                  <div data-ng-repeat="auditHistory in auditHistoryList">
+                    <button class="btn btn-link icon-caret-up" data-ng-click="toggle('audit-history{{auditHistory.id}}',this)"></button> 
+                    <span class="font-bold"> 
+                      {{ auditHistory.date_changed }} 
+                      <span data-ng-if="auditHistory.is_indirect!=1"> {{ auditHistory.event_text }} By </span> 
+                      <span data-ng-if="auditHistory.is_indirect==1"> Indirectly {{ auditHistory.event_text }} By </span> 
+                      {{ auditHistory.user_email }}
+                    </span>
+                    <div class="audit-history{{auditHistory.id}}" style="display: none;">
+                      <div class="audit-log-info">
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <p> Type: {{ auditHistory.type }} </p>
+                              <p> Date: {{ auditHistory.date }} </p>
+                              <p> Amount: {{ auditHistory.amount }} </p>
+                              <p> Open Balance:  {{ auditHistory.open_balance }} </p>
+                              <p> Customer/Supplier Message: {{ auditHistory.message }} </p>
+                              <p> Memo: {{ auditHistory.memo }} </p>
+                            </div>
+                            <div class="col-md-6">
+                              <p> Num: {{ auditHistory.trxnId }} </p>
+                              <p> 
+                                Name: 
+                                <span data-ng-if="auditHistory.person_type==1">
+                                  {{ customerUIList[ auditHistory.person_id ].name }}
+                                </span>
+                                <span data-ng-if="auditHistory.person_type==2">
+                                  {{ supplierUIList[ auditHistory.person_id ].name }}
+                                </span>
+                              </p>
+                              <p> 
+                                Email:
+                                <span data-ng-if="auditHistory.person_type==1">
+                                  {{ customerUIList[ auditHistory.person_id ].email }}
+                                </span>
+                                <span data-ng-if="auditHistory.person_type==2">
+                                  {{ supplierUIList[ auditHistory.person_id ].email }}
+                                </span>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="audit-log-items">
+                        <table class="table-bordered tbl-invc table-responsive">
+                          <thead>
+                            <tr>
+                              <th width="3%" align="center" style="text-align: center;">No.</th>
+                              <th width="10%">Customer</th>
+                              <th width="10%">Supplier</th>
+                              <th width="10%">Product/Service</th>
+                              <th width="12%">Description</th>
+                              <th width="5%">Qty</th>
+                              <th width="5%">Rate</th>
+                              <th width="17%">Account</th>
+                              <th width="5%">Amount</th>
+                              <th width="5%">Open Balance</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr data-ng-repeat="auditLogItem in auditHistory.auditLogItems">
+                              <td> {{ auditLogItem.no }} </td>
+                              <td> {{ customerUIList[ auditLogItem.customer_id ].name }} </td>
+                              <td> {{ supplierUIList[ auditLogItem.supplier_id ].name }} </td>
+                              <td> 
+                                <span data-ng-if="auditLogItem.product_service_id"> {{ productServiceUINames[ auditLogItem.product_service_id ] }} </span> 
+                              </td>
+                              <td> {{ auditLogItem.description }} </td>
+                              <td> {{ auditLogItem.qty }} </td>
+                              <td> {{ auditLogItem.rate }} </td>
+                              <td> 
+                                <span data-ng-if="auditLogItem.account_id">{{ accountUINames[ auditLogItem.account_id ] }} </td>
+                              </span>
+                              <td> {{ auditLogItem.amount }} </td>
+                              <td> {{ auditLogItem.open_balance }} </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

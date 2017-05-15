@@ -1,0 +1,36 @@
+.selectize-dropdown-content .option span {
+    float: right;
+    font-size: 12px;
+}
+
+.selectize-dropdown-content .option.category {
+    font-weight: bold;
+}
+
+.selectize-dropdown-content .option.clickable {
+    margin-left: 10px;
+}
+
+.selectize-input, .selectize-input input:not(:focus) {
+	cursor: pointer !important;
+}
+
+.selectize-input:after {
+    content: ' ';
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    margin-top: -3px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 5px 5px 0 5px;
+    border-color: #808080 transparent transparent transparent;
+}
+
+.selectize-input.dropdown-active:after {
+	margin-top: -4px;
+	border-width: 0px 5px 5px 5px;
+	border-color: transparent transparent #808080 transparent;
+}

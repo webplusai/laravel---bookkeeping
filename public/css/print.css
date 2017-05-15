@@ -1,0 +1,51 @@
+.print-show {
+	display: none;
+}
+
+@media print {
+	.border-top-primary {
+		border-top: none;
+	}
+
+	img.print-company-logo {
+		width: 80px;
+	}
+
+	.print-hidden {
+		display: none;
+	}
+
+	.print-show {
+		display: block;
+	}
+
+	.print-report-company-name {
+		font-size: 20px;
+	}
+
+	.print-report-name {
+		font-size: 17px;
+	}
+
+	.print-report-date {
+		font-size: 13px;
+	}
+
+	.table-print {
+		width: 100%;
+	}
+
+	.table-print thead th {
+		padding: 10px 10px;
+		background-color: #aaaaaa !important;
+	}
+
+	.table-print th, .table-print td {
+		padding: 3px 10px;
+		border: 1px solid #777;
+	}
+
+	.table-print .no-border {
+		border: none !important;
+	}
+}

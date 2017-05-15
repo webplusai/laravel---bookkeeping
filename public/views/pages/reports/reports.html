@@ -1,0 +1,134 @@
+<div data-ng-controller="ReportsCtrl" class="robust-content container center-layout mt-2">
+  <div class="content-wrapper">
+    <div class="content-header row mb-1">
+      <div class="content-header-left col-md-9 col-xs-12">
+        <h2 class="content-header-title mb-0">Reports</h2>
+        <div class="row breadcrumbs-top">
+          <div class="breadcrumb-wrapper col-xs-12">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+              <li class="breadcrumb-item active">Reports
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <p class="m-0">&nbsp;</p>
+    </div>
+
+    <div class="content-body">
+      <section>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="card">
+              <div class="card-header">
+                <h4>Profit and Loss</h4>
+                <div class="heading-elements mv-static">
+                  <fieldset>
+                    <select class="form-control" id="basicSelect" data-ng-model="profitLossPeriod" data-ng-change="drawProfitAndLossChart()" data-ng-init="profitLossPeriod='Last 30 days'">
+                      <option>Last 30 days</option>
+                      <option>This year</option>
+                      <option>This month</option>
+                      <option>This quarter</option>
+                    </select>
+                  </fieldset>
+                </div>
+              </div>
+              <div class="card-body" id="base-style">
+                <div class="card-block card-dashboard">
+                  <div class="row form-group">
+                    <div class="col-md-4">
+                      <div class="list-group lg-pad">
+                        <a href="#" class="list-group-item list-group-item-action">
+                          <h2 class="list-group-item-heading"> $ {{ netIncome | number : 2 }} </h2>
+                          <h5 class="list-group-item-text">Net Income</h5>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                          <h2 class="list-group-item-heading"> $ {{ income | number : 2 }} </h2>
+                          <h5 class="list-group-item-text">Income</h5>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                          <h2 class="list-group-item-heading"> $ {{ expense | number : 2 }} </h2>
+                          <h5 class="list-group-item-text">Expenses</h5>
+                        </a>
+                      </div>
+                    </div>
+                    <div class="col-md-8">
+                      <div id="salesBarChart"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card">
+              <a href="#/company-snapshot">
+                <div class="text-xs-center">
+                  <div class="card-block">
+                    <img src="img/portrait/medium/archives.png" class="height-150" alt="Card image" style="margin-top:18px">
+                  </div>
+                  <div class="card-block">
+                    <h4 class="card-title">Company Snapshot</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi cursus sapien at nulla fermentum, eu elementum eros rutrum. Nam quis tristique urna. Suspendisse potenti.</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="col-md-6">            
+            <div class="card">
+              <a href="#/profit-loss">
+                <div class="text-xs-center">
+                  <div class="card-block">
+                    <img src="img/portrait/medium/coin.png" class="height-150" alt="Card image" style="margin-top:18px">
+                  </div>
+                  <div class="card-block">
+                    <h4 class="card-title">Profit and Loss</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi cursus sapien at nulla fermentum, eu elementum eros rutrum. Nam quis tristique urna. Suspendisse potenti.</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card">
+              <a href="#/balance-sheet">
+                <div class="text-xs-center">
+                  <div class="card-block">
+                    <img src="img/portrait/medium/analytics.png" class="height-150" alt="Card image" style="margin-top:18px">
+                  </div>
+                  <div class="card-block">
+                    <h4 class="card-title">Balance Sheet</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi cursus sapien at nulla fermentum, eu elementum eros rutrum. Nam quis tristique urna. Suspendisse potenti.</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <a href="#/expense-by-supplier-summary">
+                <div class="text-xs-center">
+                  <div class="card-block">
+                    <img src="img/portrait/medium/presentation.png" class="height-150" alt="Card image" style="margin-top:18px">
+                  </div>
+                  <div class="card-block">
+                    <h4 class="card-title">Expenses by Supplier Summary</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi cursus sapien at nulla fermentum, eu elementum eros rutrum. Nam quis tristique urna. Suspendisse potenti.</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,233 @@
+<div data-ng-controller="NewSalesReceiptCtrl" class="robust-content container center-layout mt-2">
+  <div class="content-wrapper">
+    <div class="content-header row mb-1">
+      <div class="content-header-left col-md-9 col-xs-12">
+        <h2 class="content-header-title mb-0">Sales Receipt No# {{ transaction.transaction.invoice_receipt_no }} </h2>
+        <div class="row breadcrumbs-top print-hidden">
+          <div class="breadcrumb-wrapper col-xs-12">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#/dashboard">Home</a></li>
+              <li class="breadcrumb-item"><a href="#/sales">Sales</a></li>
+              <li class="breadcrumb-item active">Sales Receipt
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <div sej-new-sales-dropdown> </div>
+
+      <div id="selectPersonType" class="slt-open-dd card select-person-type" sej-person-type-dialog> </div>
+
+      <div class="modal fade text-xs-left" id="newPersonDialog" tabindex="-1" role="dialog" data-labelledby="myModalLabel1" aria-hidden="true" data-sej-person-dialog data-create-event="createPerson"> </div>
+
+      <div class="modal fade text-xs-left" id="productServiceDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" data-sej-product-service-dialog data-create-event="createProductService"> </div>
+
+      <div class="modal fade text-xs-left" id="productCategoryDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" data-sej-product-category-dialog data-create-event="createProductCategory" data-update-event="updateProductCategory"> </div>
+
+      <div class="modal fade text-xs-left" id="deleteConfirmDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" data-sej-delete-confirm-dialog data-delete-event="deleteTransaction" data-target-name="sales receipt"> </div>
+
+      <div class="modal fade text-xs-left" id="zeroWarningDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true" data-sej-trxn-zero-warning-dialog> </div>
+
+      <p class="m-0">&nbsp;</p>
+    </div>
+
+    <div class="content-body">
+      <section>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="card">
+                <div class="card-header dateH" style="display: inline-block;">
+                  <div class="col-md-4 mbv-1 hidden">
+                    <div class="input-group">
+                      <p class="inpt-grp-addon">Transaction Type</p>
+                      <input type="text" class="form-control" data-ng-model="transactionType" data-ng-init="transactionType='sales_receipt'"/>
+                    </div>
+                  </div>
+                  <div class="col-md-4 offset-md-4 mbv-1 text-md-right hidden">
+                    <div class="input-group">
+                      <p class="inpt-grp-addon">Transaction Type</p>
+                      <input type="text" tabindex="2" class="form-control" data-ng-model="transaction.transaction.transactionType" data-ng-init="transaction.transaction.transaction_type=3"/>
+                    </div>
+                  </div>
+                  <div class="col-md-4 offset-md-4 mbv-1 text-md-right hidden">
+                    <div class="input-group">
+                      <p class="inpt-grp-addon">Status</p>
+                      <input type="text" tabindex="2" class="form-control" data-ng-model="transaction.transaction.status" data-ng-init="transaction.transaction.status=1"/>
+                    </div>
+                  </div>
+                  <div class="col-md-4 offset-md-4 mbv-1 text-md-right hidden">
+                    <div class="input-group">
+                      <p class="inpt-grp-addon">Balance</p>
+                      <input type="text" tabindex="2" class="form-control" data-ng-model="transaction.transaction.balance" data-ng-init="transaction.transaction.balance=0"/>
+                    </div>
+                  </div>
+                  <div class="col-md-4 offset-md-4 mbv-1 text-md-right hidden">
+                    <div class="input-group">
+                      <p class="inpt-grp-addon">Invoice Receipt No</p>
+                      <input type="text" tabindex="2" class="form-control" data-ng-model="transaction.transaction.invoice_receipt_no" data-ng-init="transaction.transaction.invoice_receipt_no=0"/>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mbv-1 hidden">
+                    <div class="input-group">
+                      <p class="inpt-grp-addon">Table Name</p>
+                      <input type="text" class="form-control" data-ng-model="targetTableName" data-ng-init="targetTableName='customer'"/>
+                    </div>
+                  </div>
+                  <div class="form-group row has-feedback hidden">
+                    <label class="col-md-3 label-control"> Person Type </label>
+                    <input class="form-control hidden" data-ng-model="personListType" data-ng-init="personListType='customer'" placeholder="Name" type="text" tabindex="1">
+                  </div>
+                  <span class="print-show"> <div style="width: 100px; display: inline-block;"> Customer: </div> <div style=" display: inline-block;"> {{ transaction.transaction.customer }} </div> </span>
+                  <span class="print-show"> <div style="width: 100px; display: inline-block;"> Invoice: </div> <div style=" display: inline-block;"> {{ transaction.transaction.date }} </div> </span>
+                  <span class="print-show"> <div style="width: 100px; display: inline-block;"> Due Date: </div> <div style=" display: inline-block;"> {{ transaction.transaction.due_date }} </div> </span>
+                  <div class="col-md-4 mbv-1 no-padding">
+                    <div>
+                      <select id="personDropdown" data-ng-model="transaction.transaction.customer" placeholder="Select a person..." data-ng-options="customer as 'Customer' for customer in customerNames track by customer" add-new-dropdown data-add-new-event="selectPersonType" data-customer-supplier-dropdown>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mbv-1 hidden">
+                    <div class="input-group">
+                      <p class="inpt-grp-addon">Status</p>
+                      <input type="text" class="form-control" data-ng-model="transaction.transaction.status" data-ng-init="transaction.transaction.status=1"/>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mbv-1 from_date no-padding-right print-hidden">
+                    <div class="input-group">
+                      <p class="inpt-grp-addon">Invoice</p>
+                      <span class="input-group-addon"><i class="icon-calendar3"></i></span>
+                      <input type="text" class="form-control dp-month-year" data-ng-model="transaction.transaction.date"/>
+                      <div class="help-block font-small-3"></div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mbv-1 to_date no-padding-right print-hidden">
+                    <div class="input-group">
+                      <p class="inpt-grp-addon">Due&nbsp;Date</p>
+                      <span class="input-group-addon"><i class="icon-calendar3"></i></span>
+                      <input type="text" class="form-control dp-month-year" data-ng-model="transaction.transaction.due_date"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body" id="base-style" style="display: inline-block;">
+                  <div class="card-block card-dashboard">
+                    <table class="table table-bordered tbl-invc table-responsive" id="salesReceiptItems">
+                      <thead>
+                        <tr>
+                          <th class="print-hidden" width="3%">&nbsp;</th>
+                          <th width="3%" align="center" style="text-align: center;">#</th>
+                          <th width="23%">Product/Service</th>
+                          <th width="23%">Description</th>
+                          <th width="12%">QTY</th>
+                          <th width="12%">Rate</th>
+                          <th width="12%">Amount</th>
+                          <th class="print-hidden" width="3%">&nbsp;</th>
+                        </tr>
+                      </thead>
+                      <tbody ui-sortable="sortableOptions" data-ng-model="transaction.salesReceiptItems">
+                        <tr data-ng-repeat="salesReceiptItem in transaction.salesReceiptItems" data-ng-if="salesReceiptItem.rank">
+                          <td class="print-hidden valign-middle"> <button class="btn btn-link"> <i class="icon-hand-grab-o"> </i> </button> </td>
+                          <td align="center" class="valign-middle"> {{ salesReceiptItem.rank }} </td>
+                          <td> <select data-ng-if="salesReceiptItem.item_type==1" placeholder="Select a product/service..." data-ng-model="salesReceiptItem.product_service" data-ng-options="product as product for product in productServiceNames track by product" data-add-new-dropdown data-add-new-event="showCreateProductServiceDialog" data-ng-change="setProductServiceRate( salesReceiptItem.product_service, productServices, salesReceiptItem, 'selling_price' )">
+                          </select> <span class="print-show"> {{ salesReceiptItem.product_service }} </span> </td>
+                          <td> <textarea data-ng-if="salesReceiptItem.item_type==1" class="form-control" data-ng-model="salesReceiptItem.description"> </textarea> </td>
+                          <td> <input data-ng-if="salesReceiptItem.item_type==1" class="form-control" type="number" data-ng-change="calculateAmount( salesReceiptItem, transaction.salesReceiptItems )" data-ng-model="salesReceiptItem.qty" step="1" decimal-point required> </td>
+                          <td> <input data-ng-if="salesReceiptItem.item_type==1" class="form-control decimal" type="number" data-ng-change="calculateAmount( salesReceiptItem, transaction.salesReceiptItems )" data-ng-model="salesReceiptItem.rate" data-ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" decimal-point required> </td>
+                          <td> 
+                            <input data-ng-if="salesReceiptItem.item_type==1" class="form-control" type="number" data-ng-model="salesReceiptItem.amount" data-ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required> 
+                            <span data-ng-if="salesReceiptItem.item_type==2"> Subtotal: {{ salesReceiptItem.amount | number : 2 }} </span>
+                          </td>
+                          <td class="print-hidden valign-middle" algin="center"> <button class="btn btn-icon btn-sm btn-link text-danger" data-ng-click="removeLine(transaction.salesReceiptItems, {{ salesReceiptItem.removeIndex }})"> <i class="icon-trash-o"> </i> </button> </td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <div class="row print-hidden">
+                      <div class="col-md-12">
+                        <div class="form-group btng mb-1">
+                          <button class="btn btn-outline-primary mr-1 mb-1" data-ng-click="addLines(transaction.salesReceiptItems, newSalesReceiptItem)">Add Lines</button>
+                          <button class="btn btn-outline-primary mr-1 mb-1" data-ng-click="clearAllLines(transaction.salesReceiptItems, newSalesReceiptItem)">Clear All Lines</button>
+                          <button class="btn btn-outline-primary mr-1 mb-1" data-ng-click="addSubTotal( transaction.salesReceiptItems )">Add Sub Total</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-7">
+                        <div class="row form-group">
+                          <div class="col-md-6 form-group"><label>Message displayed on sales receipt</label><textarea class="form-control" data-ng-model="transaction.salesReceipt.message"></textarea></div>
+                          <div class="col-md-6"><label>Statement memo</label><textarea class="form-control" data-ng-model="transaction.salesReceipt.statement_memo"></textarea></div>
+                          <div class="col-md-12 print-hidden">
+                            <div class="drag-drop-file">
+                              <form action="#/" class="dropzone" id="dpz-single-file"></form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-5 mb-1">
+                        <div class="form-group">
+                          <table class="table tbl-invc">
+                            <tr>
+                              <td width="50%" class="bdrT-none">
+                                <label>&nbsp;</label>
+                                  <select class="form-control" data-ng-model="transaction.salesReceipt.discount_type_id" data-ng-change="calculateDiscount()" data-ng-init="transaction.salesReceipt.discount_type_id=3" style="height: 40px;">
+                                    <option value="1">Discount percent</option>
+                                    <option value="2">Discount value</option>
+                                    <option value="3">No discount</option>
+                                  </select>
+                              </td>
+                              <td width="30%" class="bdrT-none">
+                                <label>Sub Total</label>
+                                <input type="text" data-ng-if="transaction.salesReceipt.discount_type_id!=3" class="form-control" data-ng-model="transaction.salesReceipt.discount_amount" data-ng-change="calculateDiscount()">
+                                <input type="text" class="form-control hidden" data-ng-model="transaction.salesReceipt.sub_total">
+                              </td>
+                              <td width="20%" align="right" class="bdrT-none">
+                                <p> $ {{ transaction.salesReceipt.sub_total | number : 2 }}</p>
+                                <p> $ {{ discountValue | number : 2 }}</p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td>Shipping</td>
+                              <td align="right"><input type="text" class="form-control" data-ng-model="transaction.salesReceipt.shipping" data-ng-change="calculateTotal()"></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td>Total</td>
+                              <td align="right"><p> $ {{ transaction.transaction.total | number : 2 }}</p><input type="hidden" class="form-control" data-ng-model="transaction.transaction.total"></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td>Deposit</td>
+                              <td align="right"><input type="text" class="form-control" data-ng-model="transaction.salesReceipt.deposit" data-ng-change="calculateTotal()"></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td>Balance Due</td>
+                              <td align="right"><p>$ {{ transaction.balanceDue | number : 2 }}</p></td>
+                            </tr>
+                         </table>
+
+                        </div>
+                        <fieldset class="form-group has-feedback">
+                          <div class="help-block font-small-3 errors" data-ng-repeat="errorMessage in errorMessages"> {{ errorMessage }} </div>
+                        </fieldset>
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <div class="col-md-12 text-md-right btn-rgt-grp print-hidden">
+                        <button class="btn btn-secondary mr-1 mb-1" data-ng-click="showDeleteTransactionDialog()">Delete</button>
+                        <button class="btn btn-secondary mr-1 mb-1" data-ng-click="print()">Print</button>
+                        <button class="btn btn-secondary mr-1 mb-1" data-ng-click="clearAll()">Clear</button>
+                        <button class="btn btn-primary mr-1 mb-1" data-ng-click="createOrUpdate(false)">Save & Close</input>
+                        <button class="btn btn-primary mb-1" data-ng-click="createOrUpdate(true)">Save & New</input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

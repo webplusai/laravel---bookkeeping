@@ -1,0 +1,412 @@
+<div data-ng-controller="ProfitAndLossCtrl" class="robust-content container center-layout mt-2" data-ng-init="reportEndPoint='profit_loss'">
+  <div class="content-wrapper">
+    <div class="content-header row mb-1 print-hidden">
+      <div class="content-header-left col-md-9 col-xs-12">
+        <h2 class="content-header-title mb-0">Profit and Loss</h2>
+        <div class="row breadcrumbs-top">
+          <div class="breadcrumb-wrapper col-xs-12">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#/dashboard">Home</a></li>
+              <li class="breadcrumb-item"><a href="#/reports">Reports</a></li>
+              <li class="breadcrumb-item active">Profit and Loss</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <p class="m-0">&nbsp;</p>
+    </div>
+
+    <div class="print-content print-show">
+      <img src="{{ companyLogo }}" width="80px" style="position: absolute; top: 40px;">
+      <div style="position: absolute; top: 30px; left: 40px; width: calc(100% - 80px); text-align: center; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+        <h1 class="media-heading print-report-company-name" style="margin-bottom: 5px !important; padding-bottom: 0px !important;"> {{ companyName }} </h1>
+        <h2 class="print-report-name" style="margin-bottom: 5px !important; padding-bottom: 0px !important;"> {{ reportName }} </h2>
+        <h5 class="print-report-date" style="margin-bottom: 5px !important; padding-bottom: 0px !important;"> {{ report.dateFrom | date: 'dd MMM' }} - {{ report.dateTo | date: 'dd MMM yyyy' }} </h5>
+      </div>
+      <table style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; width: 60%; margin: auto; position: absolute; top: 150px; left: 20%;">
+        <tr>
+          <td> Income </td>
+          <td> </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 25px;"> Sales of Products/Services </td>
+          <td align="right"> $ {{ report.salesOfProductServices | number : 2 }} </td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; padding-left: 25px;"> Total Income </td>
+          <td style="font-weight: 600;" align="right"> $ {{ report.totalIncome | number : 2 }} </td>
+        </tr>
+        <tr> <td> &nbsp </td> <td> </td> </tr>
+        <tr>
+          <td> Cost of Sales </td>
+          <td> </td>
+        </tr>
+        <tr data-ng-repeat="cost in report.costOfSalesServices">
+          <td style="padding-left: 25px;"> {{ cost.accountName }} </td>
+          <td align="right"> $ {{ cost.expense | number : 2 }} </td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; padding-left: 25px;"> Total Cost of Sales </td>
+          <td style="font-weight: 600;" align="right"> $ {{ report.totalCostOfSales | number : 2 }} </td>
+        </tr>
+        <tr> <td> &nbsp </td> <td> </td> </tr>
+        <tr>
+          <td>Gross Profit</td>
+          <td align="right"> $ {{ report.totalIncome - report.totalCostOfSales | number : 2 }} </td>
+        </tr>
+        <tr> <td> &nbsp </td> <td> </td> </tr>
+        <tr>
+          <td> Expenses </td>
+          <td> </td>
+        </tr>
+        <tr data-ng-repeat="item in report.expenses">
+          <td style="padding-left: 25px;"> {{ item.accountName }} </td>
+          <td align="right"> $ {{ item.expense | number : 2 }} </td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; padding-left: 25px;"> Total Expenses </td>
+          <td style="font-weight: 600;" align="right"> $ {{ report.totalExpenses | number : 2 }} </td>
+        </tr>
+        <tr> <td> &nbsp </td> <td> </td> </tr>
+        <tr>
+          <td>Net Earnings</td>
+          <td align="right"> $ {{ report.totalIncome - report.totalCostOfSales - report.totalExpenses | number : 2 }} </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="excel-content hidden">
+      <table id="excelTable" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; width: 50%; margin: auto; margin-top: 270px; line-height: 1.8;" cellspacing="0" cellpadding="0">
+        <tr>
+          <td colspan="2" style="text-align: center; font-size: 20px; font-weight: bold;"> {{ companyName }} </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align: center; font-size: 20px; font-weight: bold;"> {{ reportName }} </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align: center; font-size: 15px; font-weight: bold;"> {{ report.dateFrom | date: 'dd MMM' }} - {{ report.dateTo | date: 'dd MMM yyyy' }} </td>
+        </tr>
+        <tr>
+          <td> </td>
+          <td align="right" style="font-weight: bold; border-bottom: 1px solid #222;"> Total </td>
+        </tr>
+        <tr>
+          <td> Income </td>
+          <td> </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 25px;"> Sales of Products/Services </td>
+          <td align="right"> $ {{ report.salesOfProductServices | number : 2 }} </td>
+        </tr>
+        <tr>
+          <td> Total Income </td>
+          <td style="font-weight: 600; border-top: 1px solid #222;" align="right"> $ {{ report.totalIncome | number : 2 }} </td>
+        </tr>
+        <tr>
+          <td> Cost of Sales </td>
+          <td> </td>
+        </tr>
+        <tr data-ng-repeat="cost in report.costOfSalesServices">
+          <td style="padding-left: 25px;"> {{ cost.accountName }} </td>
+          <td align="right"> $ {{ cost.expense | number : 2 }} </td>
+        </tr>
+        <tr>
+          <td> Total Cost of Sales </td>
+          <td style="font-weight: 600; border-top: 1px solid #222; border-bottom: 1px solid #222;" align="right"> $ {{ report.totalCostOfSales | number : 2 }} </td>
+        </tr>
+        <tr>
+          <td>Gross Profit</td>
+          <td align="right" style="font-weight: 600;"> $ {{ report.totalIncome - report.totalCostOfSales | number : 2 }} </td>
+        </tr>
+        <tr>
+          <td> Expenses </td>
+          <td> </td>
+        </tr>
+        <tr data-ng-repeat="item in report.expenses">
+          <td style="padding-left: 25px;"> {{ item.accountName }} </td>
+          <td align="right"> $ {{ item.expense | number : 2 }} </td>
+        </tr>
+        <tr>
+          <td> Total Expenses </td>
+          <td style="font-weight: 600; border-top: 1px solid #222; border-bottom: 1px solid #222;" align="right"> $ {{ report.totalExpenses | number : 2 }} </td>
+        </tr>
+        <tr>
+          <td>
+            Net Earnings
+            <div style="width: 100%; background-color: #ccc; border-top: 1px solid #222; border-bottom: 1px solid #222; height: 5px;">
+            </div>
+          </td>
+          <td align="right" style="font-weight: 600;"> 
+            $ {{ report.totalIncome - report.totalCostOfSales - report.totalExpenses | number : 2 }} 
+            <div style="width: 100%; background-color: #ccc; border-top: 1px solid #222; border-bottom: 1px solid #222; height: 5px">
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="pdf-content hidden">
+      <img src="{{ companyLogo }}" height="80px" style="position: absolute; top: 30px;">
+      <div style="position: absolute; top: 0px; left: 0px; width: 100%; text-align: center; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+        <h1 class="media-heading pdf-report-company-name" style="margin-bottom: 5px !important; padding-bottom: 0px !important; font-weight: 500;"> {{ companyName }} </h1>
+        <h2 class="pdf-report-name" style="margin-bottom: 5px !important; padding-bottom: 0px !important; font-weight: 500; font-size: 23px;"> {{ reportName | uppercase }} </h2>
+        <br> <br> <br>
+        <h5 class="pdf-report-date" style="margin-bottom: 5px !important; padding-bottom: 0px !important; font-weight: 500; font-size: 18px;"> {{ report.dateFrom | date: 'dd MMM' }} - {{ report.dateTo | date: 'dd MMM yyyy' }} </h5>
+      </div>
+      <table style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; width: 50%; margin: auto; margin-top: 270px; line-height: 1.8;" cellspacing="0" cellpadding="0">
+        <tr>
+          <td style="border-top: 1px solid #222; border-bottom: 1px solid #222;"> </td>
+          <td align="right" style="border-top: 1px solid #222; border-bottom: 1px solid #222;"> Total </td>
+        </tr>
+        <tr>
+          <td> Income </td>
+          <td> </td>
+        </tr>
+        <tr>
+          <td style="padding-left: 25px;"> Sales of Products/Services </td>
+          <td align="right"> $ {{ report.salesOfProductServices | number : 2 }} </td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; border-top: 1px solid #aaa;"> Total Income </td>
+          <td style="font-weight: 600; border-top: 1px solid #aaa;" align="right"> $ {{ report.totalIncome | number : 2 }} </td>
+        </tr>
+        <tr>
+          <td> Cost of Sales </td>
+          <td> </td>
+        </tr>
+        <tr data-ng-repeat="cost in report.costOfSalesServices">
+          <td style="padding-left: 25px;"> {{ cost.accountName }} </td>
+          <td align="right"> $ {{ cost.expense | number : 2 }} </td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;"> Total Cost of Sales </td>
+          <td style="font-weight: 600; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;" align="right"> $ {{ report.totalCostOfSales | number : 2 }} </td>
+        </tr>
+        <tr>
+          <td>Gross Profit</td>
+          <td align="right" style="font-weight: 600;"> $ {{ report.totalIncome - report.totalCostOfSales | number : 2 }} </td>
+        </tr>
+        <tr>
+          <td> Expenses </td>
+          <td> </td>
+        </tr>
+        <tr data-ng-repeat="item in report.expenses">
+          <td style="padding-left: 25px;"> {{ item.accountName }} </td>
+          <td align="right"> $ {{ item.expense | number : 2 }} </td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;"> Total Expenses </td>
+          <td style="font-weight: 600; border-top: 1px solid #aaa; border-bottom: 1px solid #aaa;" align="right"> $ {{ report.totalExpenses | number : 2 }} </td>
+        </tr>
+        <tr>
+          <td>
+            Net Earnings
+            <div style="width: 100%; background-color: #ccc; border-top: 1px solid #222; border-bottom: 1px solid #222; height: 5px;">
+            </div>
+          </td>
+          <td align="right" style="font-weight: 600;"> 
+            $ {{ report.totalIncome - report.totalCostOfSales - report.totalExpenses | number : 2 }} 
+            <div style="width: 100%; background-color: #ccc; border-top: 1px solid #222; border-bottom: 1px solid #222; height: 5px">
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <form id="pdfContent" class="hidden" action="saudisms/whm/api/export_to_pdf" method="POST">
+      <input type="text" name="content">
+    </form>
+
+    <div class="content-body">
+      <section>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="card print-hidden">
+              <div class="card-header">
+                <h4 class="lbl-hd"><label>Report Period</label></h4>
+                <div class="col-md-3 mbv-1">
+                  <select class="form-control" data-ng-model="period" data-ng-change="retrieveReportByPeriod()">
+                    <option>This year to date</option>
+                    <option>This quarter</option>
+                    <option>This month</option>
+                  </select>
+                </div>
+                <div class="col-md-3 mbv-1">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="icon-calendar3"></i></span>
+                    <input type="text" class="form-control dp-month-year" data-ng-model="report.dateFrom"/>
+                  </div>
+                </div>
+                <div class="col-md-3 mbv-1">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="icon-calendar3"></i></span>
+                    <input type="text" class="form-control dp-month-year" data-ng-model="report.dateTo"/>
+                  </div>
+                </div>
+                <div class="col-md-3 mbv-1"><button class="btn btn-outline-primary" data-ng-click="retrieveReportByFromTo()">Run Again</button></div>
+              </div>
+              <div class="card-body">
+                <div class="card-block card-dashboard cbtbl">
+                  <div class="col-md-12 col-sm-12">
+                    <div class="card border-top-primary">
+                      <div class="card-header print-hidden">
+                        <ul class="list-inline mb-0 list-vmiddle">
+                          <li><a href="javascript:void(0)" onclick="CommonFunc().toggleEditNotes('#addEditNotes', '#editNotes');">Edit Notes <i class="icon-pencil3"></i></a></li>
+                          <li><a href="javascript:void(0)" onclick="CommonFunc().toggleEditHeader('#editModeHeader', '#editHeader');">Edit Header <i class="icon-pencil3"></i>
+                        </ul>
+                        <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+                        <div class="heading-elements">
+                          <ul class="list-inline mb-0 list-vmiddle">
+                            <li><a><i class="icon-print" onclick="window.print()"></i></a></li>
+                            <li class="dropdown">
+                              <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i class="icon-share-square-o"></i></a>
+                              <span aria-labelledby="btnSearchDrop1" class="dropdown-menu mt-1 dropdown-menu-right">
+	                              <a class="dropdown-item" id="excelExport" onclick="CommonFunc().exportToExcel( 'excelTable', 'Profit And Loss', 'Profit And Loss.xls' )"><i class="icon-file-excel-o"></i> Export Excel</a>
+	                              <a class="dropdown-item" onclick="CommonFunc().exportToPDF( '#profitAndLossContent', 'Profit And Loss.pdf' );"><i class="icon-file-pdf-o"></i> Export PDF </a>
+	                            </span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div id="printPreview" class="hidden"> </div>
+                      <div class="card-body collapse in" id="profitAndLossContent">
+                        <div class="card-block cbtbl">
+                          <div class="media p-1 cname editModeHeader"  id="editModeHeader" style="display: none;">
+                            <div class="media-left">
+                              <div class="skin skin-square">
+                                <input type="checkbox" id="input-11">
+                                <label for="input-11" class="font-small-3">Show Logo</label>
+                              </div>
+                              <span class=""><img src="{{ companyLogo }}" alt="" width="150px"></span>
+                            </div>
+                            <div class="media-body media-middle">
+                              <button class="btn btn-link close" onclick="CommonFunc().toggleEditHeader('#editModeHeader', '#editHeader');"><i class="icon-close"></i></button>
+                              <div>
+                                <h1 class="media-heading"><input type="text" class="form-control" data-ng-model="companyName"></h1>
+                                <h2><input type="text" class="form-control" data-ng-model="reportName" data-ng-init="reportName='Profit and Loss'"></h2>
+                              </div>
+                              <div class="mbv-1"><button class="btn btn-outline-primary" onclick="CommonFunc().toggleEditHeader('#editModeHeader', '#editHeader');">Edit</button></div>
+                              <br>
+                              <h5> {{ report.dateFrom | date: 'dd MMM' }} - {{ report.dateTo | date: 'dd MMM yyyy' }} </h5>
+                            </div>
+                          </div>
+                          <div class="media p-1 cname editHeader" id="editHeader">
+                            <div class="media-left"><span class=""><img class="print-company-logo" src="{{ companyLogo }}" alt="" width="150px"></span></div>
+                            <div class="media-body media-middle">
+                              <h1 class="media-heading print-report-company-name"> {{ companyName }} </h1>
+                              <h2 class="print-report-name"> {{ reportName }} </h2>
+                              <h5 class="print-report-date"> {{ report.dateFrom | date: 'dd MMM' }} - {{ report.dateTo | date: 'dd MMM yyyy' }} </h5>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-block cbtbl">
+                          <table class="table tbl-invc" id="profitAndLossTable">
+                            <tr>
+                              <td class="text-uppercase p-0" colspan="2">
+                                <table width="100%">
+                                  <tr>
+                                    <td class="bdrT-none font-bold"><button class="btn btn-link icon-caret-up" onclick="CommonFunc().toggle('incomeToggle',this)"></button> Income</td>
+                                  </tr>
+                                </table>
+                                <div class="incomeToggle tdActive show-pdf" style="display: none;">
+                                  <table width="100%" >
+                                    <tr>
+                                      <td class="pl-3 bdrT-none"> Sales of Products/Services </td>
+                                      <td class="bdrT-none" align="right"> $ {{ report.salesOfProductServices | number : 2 }} </td>
+                                    </tr>
+                                    <tr>
+                                      <td class="pl-3 bdrT-none"> <b> Total Income </b> </td>
+                                      <td class="bdrT-none" align="right"> <b> $ {{ report.totalIncome | number : 2 }} </b> </td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td  class="text-uppercase p-0" colspan="2">
+                                <table width="100%">
+                                  <tr>
+                                    <td class="bdrT-none font-bold"><button class="btn btn-link icon-caret-up" onclick="CommonFunc().toggle('costToggle',this)"></button> Cost of Sales </td>
+                                  </tr>
+                                </table>
+                                <div class="costToggle tdActive  show-pdf" style="display: none;">
+                                  <table width="100%" >
+                                    <tr data-ng-repeat="cost in report.costOfSalesServices">
+                                      <td class="pl-3 bdrT-none"> {{ cost.accountName }} </td>
+                                      <td class="bdrT-none" align="right"> $ {{ cost.expense | number : 2 }} </td>
+                                    </tr>
+                                    <tr>
+                                      <td class="pl-3 bdrT-none"> <b> Total Cost of Sales </b> </td>
+                                      <td class="bdrT-none" align="right"> <b> $ {{ report.totalCostOfSales | number : 2 }} </b> </td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="text-uppercase p-0" colspan="2">
+                                <table width="100%">
+                                  <tr>
+                                    <td class="bdrT-none pl-3m text-uppercase font-bold">Gross Profit</td>
+                                    <td class="bdrT-none" align="right"> $ {{ report.totalIncome - report.totalCostOfSales | number : 2 }} </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="text-uppercase p-0" colspan="2">
+                                <table width="100%">
+                                  <tr>
+                                    <td class="bdrT-none font-bold"><button class="btn btn-link icon-caret-up" onclick="CommonFunc().toggle('expenseToggle',this)"></button> Expenses</td>
+                                  </tr>
+                                </table>
+                                <div class="expenseToggle tdActive show-pdf" style="display: none;">
+                                  <table width="100%" >
+                                    <tr data-ng-repeat="item in report.expenses">
+                                      <td class="pl-3 bdrT-none"> {{ item.accountName }} </td>
+                                      <td class="bdrT-none" align="right"> $ {{ item.expense | number : 2 }} </td>
+                                    </tr>
+                                    <tr>
+                                      <td class="pl-3 bdrT-none"> <b> Total Expenses </b> </td>
+                                      <td class="bdrT-none" align="right"> <b> $ {{ report.totalExpenses | number : 2 }} </b> </td>
+                                    </tr>
+                                  </table>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="text-uppercase p-0" colspan="2">
+                                <table width="100%">
+                                  <tr>
+                                    <td class="bdrT-none pl-3m text-uppercase font-bold">Net Earnings</td>
+                                    <td class="bdrT-none" align="right"> $ {{ report.totalIncome - report.totalCostOfSales - report.totalExpenses | number : 2 }} </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </table>
+                          <div class="addEditNotes m-1" id="addEditNotes" style="display: none;">
+                            <textarea class="form-control" autofocus data-ng-model="footerNote"></textarea>
+                            <button class="btn btn-link close" onclick="CommonFunc().toggleEditNotes('#addEditNotes', '#editNotes');"><i class="icon-close"></i></button>
+                            <p class="mt-1 text-muted">4000 Character Max. </p>
+                          </div>
+                          <div id="editNotes">
+                            <p> {{ footerNote }} </p>
+                          </div>
+                          <br>
+                          <div class="text-md-center m-2 text-muted">
+                            Cash basis {{ today }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

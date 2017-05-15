@@ -1,0 +1,77 @@
+<div class="loader-wrapper full-screen-loader">
+	<div class="loader-container">
+		<div class="ball-pulse-sync loader-purple">
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+	</div>
+</div>
+<div data-ng-controller="AuthCtrl" class="robust-content container center-layout">
+	<div class="content-wrapper">
+		<div class="content-header row"> </div>
+		<div class="content-body">
+			<section class="flexbox-container lg-opt2">
+				<div class="offset-md-1 col-md-10 col-xs-12 box-shadow-1 p-0 lgn-right lg-r">
+					<div class="border-grey border-lighten-3 m-0 clearfix lgn-opt2 vertical-align row" style="align-items: center; padding: 0px;">
+						<div class="col-md-6 col-sm-12">
+							<div class="lgn-left text-xs-center" style="padding:15px 0; margin-top: 30px;">
+								<div class="no-border">
+									<img class="logo" src="img/logo/sejllat-logo.png" alt="branding logo">
+								</div>
+								<br>
+								<h3><b>Welcome To Sejllat</b></h3>
+								<p> Never worry about your business records again. Sign in now and experience simplified bookkeeping at your fingertips. </p>
+								<p class="txt-link"><a href="#" class="font-small-3">some links</a>&nbsp; | &nbsp;<a href="#" class="font-small-3">some links</a></p>
+							</div>
+						</div>
+                    
+						<div class="col-md-6 col-sm-12 bg-white">
+							<div class="card-header no-border">
+								<h6 class="card-subtitle line-on-side text-muted text-xs-center font-small-3"><span>Sign In</span></h6>
+							</div>
+							<div class="card-body collapse in">
+								<div class="card-block pt-0">
+									<form class="form-horizontal" data-ng-submit="signin()" novalidate>
+										<fieldset class="form-group has-feedback validate">
+											<input type="email" data-ng-model="email" class="form-control" id="user-name" placeholder="Your Email" tabindex="1" required="" data-validation-required-message="Please enter your Email." aria-invalid="false">
+												<div class="help-block font-small-3"></div>
+												<div class="form-control-position">
+													<i class="icon-email font-medium-4"></i>
+												</div>
+										</fieldset>
+										<fieldset class="form-group has-feedback floating-label-form-group mb-1 validate">
+											<input type="password" data-ng-model="password" class="form-control" id="user-password" placeholder="Enter Password" tabindex="2" required="" data-validation-required-message="Please enter valid passwords." aria-invalid="false">
+												<div class="help-block font-small-3"></div>
+												<div class="form-control-position">
+													<i class="icon-key3 font-medium-4"></i>
+												</div>
+										</fieldset>
+										<fieldset class="form-group row">
+											<div class="col-md-6 col-xs-12 text-xs-center text-md-left">
+												<fieldset>
+													<input type="checkbox" id="remember-me" class="chk-remember">
+													<label for="remember-me"> Remember Me</label>
+												</fieldset>
+											</div>
+											<div class="col-md-6 col-xs-12 text-xs-center text-md-right"><a href="#/recover-password" class="card-link">Forgot Password?</a></div>
+										</fieldset>
+										<fieldset class="form-group has-feedback">
+											<div class="help-block font-small-3 errors" data-ng-repeat="errorMessage in errorMessages"> {{ errorMessage }} </div>
+										</fieldset>
+										<h6 class="text-muted text-xs-right font-small-3 la"><span>By clicking Login, you agree to the <a href="#/agreement">License Agreement</a></span></h6>
+										<button type="submit" class="btn btn-primary btn-lg btn-block"><i class="icon-unlock2"></i> Login</button>
+									</form>
+								</div>
+								<p class="card-subtitle line-on-side text-muted text-xs-center font-small-3 mx-2 my-1"><span>New to Sejllat?</span></p>
+								<div class="card-block">
+									<a href="#/signup" class="btn btn-outline-primary btn-lg btn-block"><i class="icon-head"></i> Sign Up</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,129 @@
+<div data-ng-controller="CompanyProfileCtrl" class="robust-content container center-layout mt-2">
+  <div class="content-wrapper">
+    <div class="content-header row mb-1">
+      <div class="content-header-left col-md-9 col-xs-12">
+        <h2 class="content-header-title mb-0">Company Profile</h2>
+        <div class="row breadcrumbs-top">
+          <div class="breadcrumb-wrapper col-xs-12">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#/dashboard">Home</a></li>
+              <li class="breadcrumb-item active">Company Profile
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <p>&nbsp;</p>
+    </div>
+
+    <div class="content-body">
+      <section>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="card">
+              <div class="card-header">
+                 <h4>Heading</h4>
+              </div>
+              <div class="card-body" id="base-style">
+                <div class="card-block card-dashboard">
+                    <div class="row pro-con">
+                      <div class="prof-img col-md-5">
+                        <br>
+                        <img src="img/portrait/medium/company-1.png" alt="" class="img-responsive">
+                        <br><br>
+                        <p class="prof-p1">Enter Your Informations</p>
+                        <p class="prof-p2">Please fill in the following fields</p>
+                      </div>	
+                      <form class="form cp-mrgn" novalidate>
+                        <div class="col-md-7 pro-box">
+                          
+                            <div class="form-group has-feedback hidden">
+                              <label class="label-control">Table Name</label>
+                              <input class="form-control" data-ng-model="company.tableName" data-ng-init="company.tableName='company_profile'" placeholder="" type="text" tabindex="1" required data-validation-required-message= "Please enter company name.">
+                              <div class="help-block font-small-3"></div>
+                            </div>
+                            <div class="form-group has-feedback">
+                              <label class="label-control">Company Name</label>
+                              <input class="form-control" data-ng-model="company.company_name" placeholder="" type="text" tabindex="1" data-validation-required-message= "Please enter company name.">
+                              <div class="help-block font-small-3"></div>
+                            </div>
+                            <div class="form-group has-feedback">
+                              <label class="label-control">Business Id No.</label>
+                              <input class="form-control" data-ng-model="company.business_id_no" placeholder="" type="text" tabindex="2" data-validation-containsnumber-regex="(\d)+" data-validation-containsnumber-message="No Characters Allowed, Only Numbers">
+                              <div class="help-block font-small-3"></div>
+                            </div>
+                            <div class="form-group has-feedback">
+                              <label class="label-control">Industry</label>
+                              <input class="form-control" data-ng-model="company.industry" placeholder="" type="text" tabindex="3">
+                              <div class="help-block font-small-3"></div>
+                            </div>
+                            <div class="form-group has-feedback">
+                              <label class="label-control">Company email</label>
+                              <input class="form-control" data-ng-model="company.company_email" placeholder="" type="email" tabindex="4">
+                              <div class="help-block font-small-3"></div>
+                            </div>
+                            <div class="form-group has-feedback">
+                              <label class="label-control">Company Phone</label>
+                              <input class="form-control" data-ng-model="company.company_phone" placeholder="" type="text" tabindex="5" data-validation-containsnumber-regex="(\d)+" data-validation-containsnumber-message="No Characters Allowed, Only Numbers">
+                              <div class="help-block font-small-3"></div>
+                            </div>
+                            <div class="form-group has-feedback">
+                              <label class="label-control">Company Website</label>
+                              <input type="text" data-ng-model="company.company_website" class="form-control" placeholder="e.g. https://www.yourdomain.com, https://yourdomain.com" data-validation-regex-regex="((http[s]?|ftp[s]?):\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*" data-validation-regex-message="Only Valid URL's">
+                              <div class="help-block font-small-3"></div>
+                            </div>
+                            <div class="form-group has-feedback">
+                              <label class="label-control">Address</label>
+                              <input class="form-control" data-ng-model="company.address" placeholder="" type="text" tabindex="7">
+                              <div class="help-block font-small-3"></div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                  <label class="label-control">City</label>
+                                  <input type="text" class="form-control" data-ng-model="company.city" tabindex="8">
+                                  <div class="help-block font-small-3"></div>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group has-feedback">
+                                  <label class="label-control">Country</label>
+                                  <select class="form-control" id="countryDropdown" data-ng-model="company.country" data-ng-init="company.country='Select your country'"></select>
+                                  <div class="help-block font-small-3"></div>
+                                </div>
+                              </div>
+                            </div>														
+                            <div>
+                              <div class="form-group has-feedback">
+                                <label class="label-control">Company Logo</label>
+                                <input type="hidden" data-ng-model="company.company_logo">
+                                <div class="drag-drop-file">
+                                  <form action="/upload" class="dropzone" id="dpz-single-file"> </form>
+                                  <form action="/upload" class="dropzone" id="dpz-single-file"> </form>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-8"> </div>
+                              <div class="col-md-4">
+                                <fieldset class="form-group has-feedback">
+                                  <div class="help-block font-small-3 errors" data-ng-repeat="errorMessage in errorMessages"> {{ errorMessage }} </div>
+                                </fieldset>
+                              </div>
+                            </div>
+                          <div>
+                          <button type="button" class="btn grey btn-outline-secondary mt-1 btn-block" data-ng-click="goBack()">Cancel</button>
+                          <button type="submit" class="btn btn-primary mt-1 btn-block" id="type-success">Save</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,586 @@
+<div data-ng-controller="BalanceSheetCtrl" data-ng-init="reportEndPoint='balance_sheet'" class="robust-content container center-layout mt-2">
+  <div class="content-wrapper">
+    <div class="content-header row mb-1 print-hidden">
+      <div class="content-header-left col-md-9 col-xs-12">
+        <h2 class="content-header-title mb-0">Balance Sheet</h2>
+        <div class="row breadcrumbs-top">
+          <div class="breadcrumb-wrapper col-xs-12">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#/dashboard">Home</a></li>
+              <li class="breadcrumb-item"><a href="#/reports">Reports</a></li>
+              <li class="breadcrumb-item active">Balance Sheet
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <p class="m-0">&nbsp;</p>
+    </div>
+
+    <div class="print-content print-show">
+      <img src="{{ companyLogo }}" width="150px" style="margin-top: 30px;">
+      <div style="position: absolute; top: 0px; left: 0px; width: 100%; text-align: center; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+        <h1 class="media-heading print-report-company-name" style="margin-bottom: 5px !important; padding-bottom: 0px !important;"> {{ companyName }} </h1>
+        <h2 class="print-report-name" style="margin-bottom: 5px !important; padding-bottom: 0px !important;"> {{ reportName }} </h2>
+        <h5 class="print-report-date" style="margin-bottom: 5px !important; padding-bottom: 0px !important;"> {{ report.dateFrom | date: 'dd MMM' }} - {{ report.dateTo | date: 'dd MMM yyyy' }} </h5>
+      </div>
+      <table style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; width: 60%; margin: auto; margin-top: 80px;">
+        <tr>
+          <td> Assets </td>
+          <td> </td>
+        </tr>
+          <tr>
+            <td style="padding-left: 25px;"> Current Assets </td>
+            <td> </td>
+          </tr>
+            <tr data-ng-repeat="asset in report.currentAssets"> 
+              <td style="padding-left: 50px;" data-ng-show="asset.balance!=0"> {{ asset.accountName }} </td>
+              <td data-ng-show="asset.balance!=0" align="right"> $ {{ asset.balance | number : 2 }} </td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600; padding-left: 50px;"> Total Current Assets </td>
+              <td align="right" style="font-weight: 600;"> $ {{ report.totalCurrentAssets | number : 2 }} </td>
+            </tr>
+          <tr>
+            <td style="padding-left: 25px;"> Non-Current Assets </td>
+            <td> </td>
+          </tr>
+            <tr data-ng-repeat="asset in report.nonCurrentAssets"> 
+              <td style="padding-left: 50px;" data-ng-show="asset.balance!=0"> {{ asset.accountName }} </td>
+              <td data-ng-show="asset.balance!=0" align="right"> $ {{ asset.balance  | number : 2 }} </td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600; padding-left: 50px;"> Total Non-Current Assets </td>
+              <td style="font-weight: 600;" align="right"> $ {{ report.totalNonCurrentAssets | number : 2 }} </td>
+            </tr>
+        <tr>
+          <td style="font-weight: 600; padding-left: 25px;"> Total Assets </td>
+          <td style="font-weight: 600;" align="right"> $ {{ report.totalCurrentAssets + report.totalNonCurrentAssets | number : 2 }} </td>
+        </tr>
+
+        <tr>
+          <td> Liabilities and Owner's Equity </td>
+          <td> </td>
+        </tr>
+          <tr>
+            <td style="padding-left: 25px;"> Liabilities </td>
+            <td> </td>
+          </tr>
+            <tr>
+              <td style="padding-left: 50px;"> Current Liabilities </td>
+              <td> </td>
+            </tr>
+              <tr data-ng-repeat="liability in report.currentLiabilities">
+                <td style="padding-left: 75px;" data-ng-show="liability.balance!=0"> {{ liability.accountName }} </td>
+                <td data-ng-show="liability.balance!=0" align="right"> $ {{ liability.balance | number : 2 }} </td>
+              </tr>
+              <tr>
+                <td style="padding-left: 75px; font-weight: 600;"> Total Current Liabilities </td>
+                <td style="font-weight: 600;" align="right"> $ {{ report.totalCurrentLiabilities | number : 2 }} </td>
+              </tr>
+            <tr>
+              <td style="padding-left: 50px;"> Non-Current Liabilities </td>
+              <td> </td>
+            </tr>
+              <tr data-ng-repeat="asset in report.nonCurrentAssets"> 
+                <td style="padding-left: 75px;" data-ng-show="asset.balance!=0"> {{ asset.accountName }} </td>
+                <td data-ng-show="asset.balance!=0" align="right"> $ {{ asset.balance  | number : 2 }} </td>
+              </tr>
+              <tr>
+                <td style="padding-left: 75px; font-weight: 600;"> Total Non-Current Assets </td>
+                <td style="font-weight: 600;" align="right"> $ {{ report.totalNonCurrentAssets | number : 2 }} </td>
+              </tr>
+          <tr>
+            <td style="padding-left: 25px;"> Owner's Equity </td>
+            <td> </td>
+          </tr>
+            <tr data-ng-repeat="equity in report.ownersEquity">
+              <td style="padding-left: 50px;" data-ng-show="equity.balance!=0"> {{ equity.accountName }} </td>
+              <td data-ng-show="equity.balance!=0" align="right"> $ {{ equity.balance | number : 2 }} </td>
+            </tr>
+            <tr>
+              <td style="padding-left: 50px;"> Net Income </td>
+              <td align="right"> $ {{ report.netIncome | number : 2 }} </td>
+            </tr>
+            <tr>
+              <td style="padding-left: 50px;"> Retained Earnings </td>
+              <td align="right"> $ {{ report.retainedEarnings | number : 2 }} </td>
+            </tr>
+            <tr>
+              <td style="padding-left: 50px;"> Total Owner's Equity </td>
+              <td align="right"> $ {{ report.totalOwnersEquity + report.netIncome + report.retainedEarnings | number : 2 }} </td>
+            </tr>
+        <tr class="bdr-btm-2">
+          <td style="padding-left: 25px; font-weight: 600;"> Total Liabilities Equity </td>
+          <td style="font-weight: 600;" align="right"> $ {{ report.totalOwnersEquity + report.netIncome + report.retainedEarnings + report.totalCurrentLiabilities + report.totalNonCurrentLiabilities | number : 2 }} </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="excel-content hidden">
+      <table id="excelTable" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; width: 50%; margin: auto; margin-top: 270px; line-height: 1.8;" cellspacing="0" cellpadding="0">
+        <tr>
+          <td colspan="2" style="text-align: center; font-size: 20px; font-weight: bold;"> {{ companyName }} </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align: center; font-size: 20px; font-weight: bold;"> {{ reportName }} </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align: center; font-size: 15px; font-weight: bold;"> {{ report.dateFrom | date: 'dd MMM' }} - {{ report.dateTo | date: 'dd MMM yyyy' }} </td>
+        </tr>
+        <tr>
+          <td> Assets </td>
+          <td> </td>
+        </tr>
+          <tr>
+            <td style="padding-left: 25px;"> Current Assets </td>
+            <td> </td>
+          </tr>
+            <tr data-ng-repeat="asset in report.currentAssets"> 
+              <td style="padding-left: 50px;" data-ng-show="asset.balance!=0"> {{ asset.accountName }} </td>
+              <td data-ng-show="asset.balance!=0" align="right"> $ {{ asset.balance | number : 2 }} </td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600; padding-left: 50px;"> Total Current Assets </td>
+              <td align="right" style="font-weight: 600;"> $ {{ report.totalCurrentAssets | number : 2 }} </td>
+            </tr>
+          <tr>
+            <td style="padding-left: 25px;"> Non-Current Assets </td>
+            <td> </td>
+          </tr>
+            <tr data-ng-repeat="asset in report.nonCurrentAssets"> 
+              <td style="padding-left: 50px;" data-ng-show="asset.balance!=0"> {{ asset.accountName }} </td>
+              <td data-ng-show="asset.balance!=0" align="right"> $ {{ asset.balance  | number : 2 }} </td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600; padding-left: 50px;"> Total Non-Current Assets </td>
+              <td style="font-weight: 600;" align="right"> $ {{ report.totalNonCurrentAssets | number : 2 }} </td>
+            </tr>
+        <tr>
+          <td style="font-weight: 600; padding-left: 25px;"> Total Assets </td>
+          <td style="font-weight: 600;" align="right"> $ {{ report.totalCurrentAssets + report.totalNonCurrentAssets | number : 2 }} </td>
+        </tr>
+
+        <tr>
+          <td> Liabilities and Owner's Equity </td>
+          <td> </td>
+        </tr>
+          <tr>
+            <td style="padding-left: 25px;"> Liabilities </td>
+            <td> </td>
+          </tr>
+            <tr>
+              <td style="padding-left: 50px;"> Current Liabilities </td>
+              <td> </td>
+            </tr>
+              <tr data-ng-repeat="liability in report.currentLiabilities">
+                <td style="padding-left: 75px;" data-ng-show="liability.balance!=0"> {{ liability.accountName }} </td>
+                <td data-ng-show="liability.balance!=0" align="right"> $ {{ liability.balance | number : 2 }} </td>
+              </tr>
+              <tr>
+                <td style="padding-left: 75px; font-weight: 600;"> Total Current Liabilities </td>
+                <td style="font-weight: 600;" align="right"> $ {{ report.totalCurrentLiabilities | number : 2 }} </td>
+              </tr>
+            <tr>
+              <td style="padding-left: 50px;"> Non-Current Liabilities </td>
+              <td> </td>
+            </tr>
+              <tr data-ng-repeat="asset in report.nonCurrentAssets"> 
+                <td style="padding-left: 75px;" data-ng-show="asset.balance!=0"> {{ asset.accountName }} </td>
+                <td data-ng-show="asset.balance!=0" align="right"> $ {{ asset.balance  | number : 2 }} </td>
+              </tr>
+              <tr>
+                <td style="padding-left: 75px; font-weight: 600;"> Total Non-Current Assets </td>
+                <td style="font-weight: 600;" align="right"> $ {{ report.totalNonCurrentAssets | number : 2 }} </td>
+              </tr>
+          <tr>
+            <td style="padding-left: 25px;"> Owner's Equity </td>
+            <td> </td>
+          </tr>
+            <tr data-ng-repeat="equity in report.ownersEquity">
+              <td style="padding-left: 50px;" data-ng-show="equity.balance!=0"> {{ equity.accountName }} </td>
+              <td data-ng-show="equity.balance!=0" align="right"> $ {{ equity.balance | number : 2 }} </td>
+            </tr>
+            <tr>
+              <td style="padding-left: 50px;"> Net Income </td>
+              <td align="right"> $ {{ report.netIncome | number : 2 }} </td>
+            </tr>
+            <tr>
+              <td style="padding-left: 50px;"> Retained Earnings </td>
+              <td align="right"> $ {{ report.retainedEarnings | number : 2 }} </td>
+            </tr>
+            <tr>
+              <td style="padding-left: 50px;"> Total Owner's Equity </td>
+              <td align="right"> $ {{ report.totalOwnersEquity + report.netIncome + report.retainedEarnings | number : 2 }} </td>
+            </tr>
+        <tr class="bdr-btm-2">
+          <td style="padding-left: 25px; font-weight: 600;"> Total Liabilities Equity </td>
+          <td style="font-weight: 600;" align="right"> $ {{ report.totalOwnersEquity + report.netIncome + report.retainedEarnings + report.totalCurrentLiabilities + report.totalNonCurrentLiabilities | number : 2 }} </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="pdf-content hidden">
+      <img src="{{ companyLogo }}" height="80px" style="position: absolute; top: 30px;">
+      <div style="position: absolute; top: 0px; left: 0px; width: 100%; text-align: center; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif">
+        <h1 class="media-heading pdf-report-company-name" style="margin-bottom: 5px !important; padding-bottom: 0px !important; font-weight: 500;"> {{ companyName }} </h1>
+        <h2 class="pdf-report-name" style="margin-bottom: 5px !important; padding-bottom: 0px !important; font-weight: 500; font-size: 23px;"> {{ reportName | uppercase }} </h2>
+        <br> <br> <br>
+        <h5 class="pdf-report-date" style="margin-bottom: 5px !important; padding-bottom: 0px !important; font-weight: 500; font-size: 18px;"> {{ report.dateFrom | date: 'dd MMM' }} - {{ report.dateTo | date: 'dd MMM yyyy' }} </h5>
+      </div>
+      <table style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; width: 50%; margin: auto; margin-top: 270px; line-height: 1.8;" cellspacing="0" cellpadding="0">
+        <tr>
+          <td> Assets </td>
+          <td> </td>
+        </tr>
+          <tr>
+            <td style="padding-left: 25px;"> Current Assets </td>
+            <td> </td>
+          </tr>
+            <tr data-ng-repeat="asset in report.currentAssets"> 
+              <td style="padding-left: 50px;" data-ng-show="asset.balance!=0"> {{ asset.accountName }} </td>
+              <td data-ng-show="asset.balance!=0" align="right"> $ {{ asset.balance | number : 2 }} </td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600; padding-left: 25px;"> Total Current Assets </td>
+              <td align="right" style="font-weight: 600;"> $ {{ report.totalCurrentAssets | number : 2 }} </td>
+            </tr>
+          <tr>
+            <td style="padding-left: 25px;"> Non-Current Assets </td>
+            <td> </td>
+          </tr>
+            <tr data-ng-repeat="asset in report.nonCurrentAssets"> 
+              <td style="padding-left: 50px;" data-ng-show="asset.balance!=0"> {{ asset.accountName }} </td>
+              <td data-ng-show="asset.balance!=0" align="right"> $ {{ asset.balance  | number : 2 }} </td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600; padding-left: 25px;"> Total Non-Current Assets </td>
+              <td style="font-weight: 600;" align="right"> $ {{ report.totalNonCurrentAssets | number : 2 }} </td>
+            </tr>
+        <tr>
+          <td style="font-weight: 600;"> Total Assets </td>
+          <td style="font-weight: 600;" align="right"> $ {{ report.totalCurrentAssets + report.totalNonCurrentAssets | number : 2 }} </td>
+        </tr>
+
+        <tr>
+          <td> Liabilities and Owner's Equity </td>
+          <td> </td>
+        </tr>
+          <tr>
+            <td style="padding-left: 25px;"> Liabilities </td>
+            <td> </td>
+          </tr>
+            <tr>
+              <td style="padding-left: 50px;"> Current Liabilities </td>
+              <td> </td>
+            </tr>
+              <tr data-ng-repeat="liability in report.currentLiabilities">
+                <td style="padding-left: 75px;" data-ng-show="liability.balance!=0"> {{ liability.accountName }} </td>
+                <td data-ng-show="liability.balance!=0" align="right"> $ {{ liability.balance | number : 2 }} </td>
+              </tr>
+              <tr>
+                <td style="padding-left: 50px; font-weight: 600;"> Total Current Liabilities </td>
+                <td style="font-weight: 600;" align="right"> $ {{ report.totalCurrentLiabilities | number : 2 }} </td>
+              </tr>
+            <tr>
+              <td style="padding-left: 50px;"> Non-Current Liabilities </td>
+              <td> </td>
+            </tr>
+              <tr data-ng-repeat="asset in report.nonCurrentAssets"> 
+                <td style="padding-left: 75px;" data-ng-show="asset.balance!=0"> {{ asset.accountName }} </td>
+                <td data-ng-show="asset.balance!=0" align="right"> $ {{ asset.balance  | number : 2 }} </td>
+              </tr>
+              <tr>
+                <td style="padding-left: 50px; font-weight: 600;"> Total Non-Current Assets </td>
+                <td style="font-weight: 600;" align="right"> $ {{ report.totalNonCurrentAssets | number : 2 }} </td>
+              </tr>
+          <tr>
+            <td style="padding-left: 25px;"> Owner's Equity </td>
+            <td> </td>
+          </tr>
+            <tr data-ng-repeat="equity in report.ownersEquity">
+              <td style="padding-left: 50px;" data-ng-show="equity.balance!=0"> {{ equity.accountName }} </td>
+              <td data-ng-show="equity.balance!=0" align="right"> $ {{ equity.balance | number : 2 }} </td>
+            </tr>
+            <tr>
+              <td style="padding-left: 50px;"> Net Income </td>
+              <td align="right"> $ {{ report.netIncome | number : 2 }} </td>
+            </tr>
+            <tr>
+              <td style="padding-left: 50px;"> Retained Earnings </td>
+              <td align="right"> $ {{ report.retainedEarnings | number : 2 }} </td>
+            </tr>
+            <tr>
+              <td style="padding-left: 25px; font-weight: 600;"> Total Owner's Equity </td>
+              <td align="right" style="font-weight: 600;"> $ {{ report.totalOwnersEquity + report.netIncome + report.retainedEarnings | number : 2 }} </td>
+            </tr>
+        <tr class="bdr-btm-2">
+          <td style="font-weight: 600;"> Total Liabilities Equity </td>
+          <td style="font-weight: 600;" align="right"> $ {{ report.totalOwnersEquity + report.netIncome + report.retainedEarnings + report.totalCurrentLiabilities + report.totalNonCurrentLiabilities | number : 2 }} </td>
+        </tr>
+      </table>
+    </div>
+
+    <form id="pdfContent" class="hidden" action="saudisms/whm/api/export_to_pdf" method="POST">
+      <input type="text" name="content">
+    </form>
+
+    <div class="content-body">
+      <section>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="card">
+              <div class="card-header print-hidden">
+                <h4 class="lbl-hd"><label>Report Period</label></h4>
+                <div class="col-md-3 mbv-1">
+                  <select class="form-control" data-ng-model="period" data-ng-change="retrieveReportByPeriod()">
+                    <option>This year to date</option>
+                    <option>This quarter</option>
+                    <option>This month</option>
+                  </select>
+                </div>
+                <div class="col-md-3 mbv-1">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="icon-calendar3"></i></span>
+                    <input type="text" class="form-control dp-month-year" data-ng-model="report.dateFrom"/>
+                  </div>
+                </div>
+                <div class="col-md-3 mbv-1">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="icon-calendar3"></i></span>
+                    <input type="text" class="form-control dp-month-year" data-ng-model="report.dateTo"/>
+                  </div>
+                </div>
+                <div class="col-md-3 mbv-1"><button class="btn btn-outline-primary" data-ng-click="retrieveReportByFromTo()">Run Again</button></div>
+              </div>
+              <div class="card-body">
+                <div class="card-block card-dashboard cbtbl">
+                  <div class="col-md-12 col-sm-12">
+                    <div class="card border-top-primary">
+                      <div class="card-header print-hidden">
+                        <ul class="list-inline mb-0 list-vmiddle">
+                          <li><a href="javascript:void(0)" onclick="CommonFunc().toggleEditNotes('#addEditNotes', '#editNotes');">Edit Notes <i class="icon-pencil3"></i></a></li>
+                          <li><a href="javascript:void(0)" onclick="CommonFunc().toggleEditHeader('#editModeHeader', '#editHeader');">Edit Header <i class="icon-pencil3"></i></a></li>
+                        </ul>
+                        <a class="heading-elements-toggle"><i class="icon-ellipsis font-medium-3"></i></a>
+                        <div class="heading-elements">
+                          <ul class="list-inline mb-0 list-vmiddle">
+                            <li><a><i class="icon-print" onclick="window.print()"></i></a></li>
+                            <li class="dropdown">
+                              <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i class="icon-share-square-o"></i></a>
+                              <span aria-labelledby="btnSearchDrop1" class="dropdown-menu mt-1 dropdown-menu-right">
+  	                            <a class="dropdown-item" id="excelExport" onclick="CommonFunc().exportToExcel( 'excelTable', 'Balance Sheet', 'Balance Sheet.xls' )"><i class="icon-file-excel-o"></i> Export Excel</a>
+  	                            <a class="dropdown-item" onclick="CommonFunc().exportToPDF( '#balanceSheetContent', 'Profit And Loss.pdf' );"><i class="icon-file-pdf-o"></i> Export PDF </a>
+	                            </span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div id="printPreview" class="hidden"> </div>
+
+                      <div class="card-body collapse in" id="balanceSheetContent">
+                        <div class="card-block cbtbl">
+                          <div class="media p-1 cname editModeHeader"  id="editModeHeader" style="display: none;">
+                            <div class="media-left">
+                              <div class="skin skin-square">
+                                <input type="checkbox" id="input-11">
+                                <label for="input-11" class="font-small-3">Show Logo</label>
+                              </div>
+                              <span class=""><img src="{{ companyLogo }}" alt="" width="150px"></span>
+                            </div>
+                            <div class="media-body media-middle">
+                              <button class="btn btn-link close" onclick="CommonFunc().toggleEditHeader('#editModeHeader', '#editHeader');"><i class="icon-close"></i></button>
+                              <div>
+                                <h1 class="media-heading"><input type="text" class="form-control" data-ng-model="companyName"></h1>
+                                <h2><input type="text" class="form-control" data-ng-model="reportName" data-ng-init="reportName='Balance Sheet'"></h2>
+                              </div>
+                              <div class="mbv-1"><button class="btn btn-outline-primary" onclick="CommonFunc().toggleEditHeader('#editModeHeader', '#editHeader');">Edit</button></div>
+                              <br>
+                              <h5> {{ report.dateFrom | date: 'dd MMM' }} - {{ report.dateTo | date: 'dd MMM yyyy' }} </h5>
+                            </div>
+                          </div>
+                          <div class="media p-1 cname editHeader" id="editHeader">
+                            <div class="media-left"><span class=""><img class="print-company-logo" src="{{ companyLogo }}" alt="" width="150px"></span></div>
+                            <div class="media-body media-middle">
+                              <h1 class="media-heading print-report-company-name"> {{ companyName }} </h1>
+                              <h2 class="print-report-name"> {{ reportName }} </h2>
+                              <h5 class="print-report-date"> {{ report.dateFrom | date: 'dd MMM' }} - {{ report.dateTo | date: 'dd MMM yyyy' }} </h5>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-block cbtbl">
+                          <table class="table tbl-invc" id="balanceSheetTable">
+                              <tr>
+                                <td class="bdrT-none" colspan="2" align="right"><div class="text-bold-600"> {{ }} </div></td>
+                              </tr>
+                              <tr>
+                                <td  class="text-uppercase bdrTB-none no-padding-right" colspan="2">
+                                  <button class="btn btn-link icon-caret-up" onclick="CommonFunc().toggle('assetstdToggle',this)"></button> <span class="font-bold"> ASSETS </span>
+                                  <div class="assetstdToggle tdActive">
+                                    <table width="100%" >
+                                      <tr>
+                                        <td colspan="2" class="bdrTB-none">
+                                          <div class="pl-1">
+                                            <button class="btn btn-link icon-caret-up" onclick="CommonFunc().toggle('currentAssetstdToggle',this)"></button> Current Assets
+                                          </div>
+                                          <div class="currentAssetstdToggle tdActive">
+                                            <table width="100%">
+                                              <tr data-ng-repeat="asset in report.currentAssets"> 
+                                                <td class="bdrTB-none" data-ng-show="asset.balance!=0"> <div class="pl-3"> {{ asset.accountName }} </div> </td>
+                                                <td class="bdrTB-none no-padding-right" data-ng-show="asset.balance!=0" align="right"> $ {{ asset.balance | number : 2 }} </td>
+                                              </tr>
+                                              <tr>
+                                                <td><div class="pl-3 text-bold-600">Total Current Assets</div></td>
+                                                <td align="right" class="no-padding-right"><div class="text-bold-600"> $ {{ report.totalCurrentAssets | number : 2 }} </div></td>
+                                              </tr>
+                                            </table>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td colspan="2" class="bdrTB-none">
+                                          <div class="pl-1">
+                                            <button class="btn btn-link icon-caret-up" onclick="CommonFunc().toggle('nonCurrentAssetstdToggle',this)"></button> Non-Current Assets
+                                          </div>
+                                          <div class="nonCurrentAssetstdToggle tdActive">
+                                            <table width="100%">
+                                              <tr data-ng-repeat="asset in report.nonCurrentAssets"> 
+                                                <td class="bdrTB-none" data-ng-show="asset.balance!=0"> <div class="pl-3"> {{ asset.accountName }} </div> </td>
+                                                <td class="bdrTB-none no-padding-right" data-ng-show="asset.balance!=0" align="right"> $ {{ asset.balance  | number : 2 }} </td>
+                                              </tr>
+                                              <tr>
+                                                <td><div class="pl-3 text-bold-600">Total Non-Current Assets</div></td>
+                                                <td align="right" class="no-padding-right"><div class="text-bold-600"> $ {{ report.totalNonCurrentAssets | number : 2 }} </div></td>
+                                              </tr>
+                                            </table>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                      <tr class="bdr-btm-2">
+                                        <td class="bdrTB-none"><div class="text-bold-800">Total Assets</div></td>
+                                        <td align="right" class="bdrTB-none"><div class="text-bold-800"> $ {{ report.totalCurrentAssets + report.totalNonCurrentAssets | number : 2 }} </div></td>
+                                      </tr>
+                                    </table>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="text-uppercase bdrTB-none no-padding-right" colspan="2">
+                                  <button class="btn btn-link icon-caret-up" onclick="CommonFunc().toggle('lseToggle',this)"></button> <span class="font-bold"> Liabilities and Owner's Equity </span>
+                                  <div class="lseToggle tdActive">
+                                    <table width="100%" >
+                                      <tr>
+                                        <td colspan="2" class="bdrTB-none">
+                                          <div class="pl-1">
+                                            <button class="btn btn-link icon-caret-up" onclick="CommonFunc().toggle('liabilitiesToggle',this)"></button> Liabilities
+                                          </div>
+                                          <div class="liabilitiesToggle tdActive">
+                                            <table width="100%">
+                                              <tr>
+                                                <td colspan="2" class="bdrTB-none no-padding-right">
+                                                  <div class="pl-1">
+                                                    <button class="btn btn-link icon-caret-up" onclick="CommonFunc().toggle('currentLiabilitiesToggle',this)"></button> Current Liabilities
+                                                  </div>
+                                                  <div class="currentLiabilitiesToggle tdActive">
+                                                    <table width="100%">
+                                                      <tr data-ng-repeat="liability in report.currentLiabilities">
+                                                        <td class="bdrTB-none" data-ng-show="liability.balance!=0"> <div class="pl-3"> {{ liability.accountName }} </div> </td>
+                                                        <td class="bdrTB-none no-padding-right" data-ng-show="liability.balance!=0" align="right"> $ {{ liability.balance | number : 2 }} </td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td><div class="pl-3 text-bold-600">Total Current Liabilities</div></td>
+                                                        <td align="right" class="no-padding-right"><div class="text-bold-600"> $ {{ report.totalCurrentLiabilities | number : 2 }} </div></td>
+                                                      </tr>
+                                                    </table>
+                                                  </div>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <td colspan="2" class="bdrTB-none no-padding-right">
+                                                  <div class="pl-1">
+                                                    <button class="btn btn-link icon-caret-up" onclick="CommonFunc().toggle('nonCurrentLiabilitiesToggle',this)"></button> Non-Current Liabilities
+                                                  </div>
+                                                  <div class="nonCurrentLiabilitiesToggle tdActive">
+                                                    <table width="100%">
+                                                      <tr data-ng-repeat="liability in report.nonCurrentLiabilities">
+                                                        <td class="bdrTB-none" data-ng-show="liability.balance!=0"> <div class="pl-3"> {{ liability.accountName }} </div> </td>
+                                                        <td class="bdrTB-none no-padding-right" data-ng-show="liability.balance!=0" align="right"> $ {{ liability.balance | number : 2 }} </td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td><div class="pl-3 text-bold-600">Total Non-Current Liabilities</div></td>
+                                                        <td align="right" class="no-padding-right"><div class="text-bold-600"> $ {{ report.totalNonCurrentLiabilities | number : 2 }} </div></td>
+                                                      </tr>
+                                                    </table>
+                                                  </div>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <td><div class="pl-3 text-bold-600">Total Liabilities</div></td>
+                                                <td align="right" class="no-padding-right"><div class="text-bold-600"> $ {{ report.totalNonCurrentLiabilities + report.totalCurrentLiabilities | number : 2 }} </div></td>
+                                              </tr>
+                                            </table>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td colspan="2" class="bdrTB-none">
+                                          <div class="pl-1">
+                                            <button class="btn btn-link icon-caret-up" onclick="CommonFunc().toggle('ownersEquityToggle',this)"></button> Owner's Equity
+                                          </div>
+                                          <div class="ownersEquityToggle tdActive">
+                                            <table width="100%">
+                                              <tr data-ng-repeat="equity in report.ownersEquity">
+                                                <td class="bdrTB-none" data-ng-show="equity.balance!=0"><div class="pl-3"> {{ equity.accountName }} </div></td>
+                                                <td class="bdrTB-none" data-ng-show="equity.balance!=0" align="right"> $ {{ equity.balance | number : 2 }} </td>
+                                              </tr>
+                                              <tr>
+                                                <td class="bdrTB-none"><div class="pl-3">Net Income</div></td>
+                                                <td class="bdrTB-none no-padding-right" align="right"> $ {{ report.netIncome | number : 2 }} </td>
+                                              </tr>
+                                              <tr>
+                                                <td class="bdrTB-none"><div class="pl-3">Retained Earnings</div></td>
+                                                <td class="bdrTB-none no-padding-right" align="right"> $ {{ report.retainedEarnings | number : 2 }} </td>
+                                              </tr>
+                                              <tr>
+                                                <td><div class="pl-3 text-bold-600">Total Owner's Equity</div></td>
+                                                <td align="right" class="no-padding-right"><div class="text-bold-600"> $ {{ report.totalOwnersEquity + report.netIncome + report.retainedEarnings | number : 2 }} </div></td>
+                                              </tr>
+                                            </table>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                      <tr class="bdr-btm-2">
+                                        <td class="bdrTB-none"><div class="text-bold-800">Total Liabilities Equity</div></td>
+                                        <td align="right" class="bdrTB-none"><div class="text-bold-800"> $ {{ report.totalOwnersEquity + report.netIncome + report.retainedEarnings + report.totalCurrentLiabilities + report.totalNonCurrentLiabilities | number : 2 }} </div></td>
+                                      </tr>
+                                    </table>
+                                  </div>
+                                </td>
+                              </tr>
+                          </table>
+                          <div class="addEditNotes m-1" id="addEditNotes" style="display: none;">
+                            <textarea class="form-control" autofocus data-ng-model="footerNotes"></textarea>
+                            <button class="btn btn-link close" onclick="CommonFunc().toggleEditNotes('#addEditNotes', '#editNotes');"><i class="icon-close"></i></button>
+                            <p class="mt-1 text-muted">4000 Character Max.</p>
+                          </div>
+                          <div id="editNotes">
+                            <p> {{ footerNotes }} </p>
+                          </div>
+                          <br>
+                          <div class="text-md-center m-2 text-muted">
+                            Cash basis {{ today }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

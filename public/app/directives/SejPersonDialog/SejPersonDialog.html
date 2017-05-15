@@ -1,0 +1,116 @@
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="modal-title" data-ng-show="isEditDialog">Edit {{ targetTableName }} </h4>
+      <h4 class="modal-title" data-ng-show="!isEditDialog">Add new {{ targetTableName }} </h4>
+    </div>
+    <form class="form form-horizontal form-person" novalidate>
+      <div class="modal-body">
+        <div class="form-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group row has-feedback hidden">
+                <label class="col-md-3 label-control">Table Name</label>
+                <div class="col-md-9">
+                  <input class="form-control" data-ng-model="person.tableName" placeholder="Name" type="text" tabindex="1">
+                  <div class="help-block font-small-3"></div>
+                </div>
+              </div>
+              <div class="form-group row has-feedback">
+                <label class="col-md-3 label-control">Name</label>
+                <div class="col-md-9">
+                  <input class="form-control" data-ng-model="person.name" placeholder="Name" type="text" tabindex="1" required data-validation-required-message="Please enter your name.">
+                  <div class="help-block font-small-3"></div>
+                </div>
+              </div>
+              <div class="form-group row has-feedback">
+                <label class="col-md-3 label-control">Company</label>
+                <div class="col-md-9">
+                  <input class="form-control" data-ng-model="person.company" placeholder="Company" type="text" tabindex="1">
+                  <div class="help-block font-small-3"></div>
+                </div>
+              </div>
+              <div class="form-group row has-feedback">
+                <label class="col-md-3 label-control">Email</label>
+                <div class="col-md-9">
+                  <input class="form-control" data-ng-model="person.email" placeholder="Email" type="email" tabindex="1">
+                  <div class="help-block font-small-3"></div>
+                </div>
+              </div>
+              <div class="form-group row has-feedback">
+                <label class="col-md-3 label-control">Country</label>
+                <div class="col-md-9">
+                  <select class="form-control" id="countryDropdown" data-ng-model="person.country"></select>
+                  <div class="help-block font-small-3"></div>
+                </div>
+              </div>
+              <div class="form-group row has-feedback">
+                <label class="col-md-3 label-control">City</label>
+                <div class="col-md-9">
+                  <input class="form-control" data-ng-model="person.city" placeholder="City" type="text" tabindex="1">
+                  <div class="help-block font-small-3"></div>
+                </div>
+              </div>
+              <div class="form-group row has-feedback">
+                <label class="col-md-3 label-control">Phone Number</label>
+                <div class="col-md-9">
+                  <input name="noChar" data-ng-model="person.phone" tabindex="1" placeholder="Phone Number" class="form-control" data-validation-containsnumber-regex="(\d)+" data-validation-containsnumber-message="No Characters Allowed, Only Numbers" aria-invalid="false" type="text">
+                  <div class="help-block font-small-3"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group row has-feedback">
+                <label class="col-md-4 label-control">Address 1</label>
+                <div class="col-md-8">
+                  <textarea class="form-control" data-ng-model="person.address1" tabindex="1"></textarea>
+                  <div class="help-block font-small-3"></div>
+                </div>
+              </div>
+              <div class="form-group row has-feedback">
+                <label class="col-md-4 label-control">Address 2</label>
+                <div class="col-md-8">
+                  <textarea class="form-control" data-ng-model="person.address2" tabindex="1" ></textarea>
+                </div>
+              </div>
+              <div class="form-group row has-feedback">
+                <label class="col-md-4 label-control">Balance</label>
+                <div class="col-md-8">
+                  <input class="form-control" data-ng-model="person.balance">
+                </div>
+              </div>
+              <div class="form-group row has-feedback">
+                <label class="col-md-4 label-control">Note</label>
+                <div class="col-md-8">
+                  <textarea class="form-control" data-ng-model="person.note" tabindex="1" ></textarea>
+                </div>
+              </div>
+              <div class="form-group row has-feedback hidden">
+                <label class="col-md-4 label-control">Active</label>
+                <div class="col-md-8">
+                  <textarea class="form-control" data-ng-model="person.is_active" data-ng-init="person.is_active=1" tabindex="1" ></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-8"> </div>
+              <div class="col-md-4">
+                <fieldset class="form-group has-feedback">
+                  <div class="help-block font-small-3 errors" data-ng-repeat="errorMessage in personDialogErrorMessages"> {{ errorMessage }} </div>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" id="type-success" data-ng-show="isEditDialog"><i class="icon-edit"></i> Edit {{ targetTableName }} </button>
+        <button type="submit" class="btn btn-primary" id="type-success" data-ng-show="!isEditDialog"><i class="icon-plus-circle"></i> Add new {{ targetTableName }}</button>
+      </div>
+    </form>
+  </div>
+</div>

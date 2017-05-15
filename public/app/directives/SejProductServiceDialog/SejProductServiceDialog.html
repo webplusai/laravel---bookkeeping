@@ -1,0 +1,103 @@
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="modal-title">Add New Product and Service</h4>
+    </div>
+    <form class="form form-horizontal form-product-service" novalidate>
+      <div class="modal-body">
+        <div class="form-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group row hidden">
+                <label class="col-md-3 label-control">Table Name</label>
+                <div class="col-md-7">
+                  <input class="form-control" data-ng-model="productService.tableName" data-ng-init="productService.tableName='product_service'" placeholder="Name" type="text">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 label-control">Name</label>
+                <div class="col-md-7">
+                  <input class="form-control" data-ng-model="productService.name" placeholder="Name" type="text" required data-validation-required-message="Please enter the product/service name.">
+                  <div class="help-block font-small-3"> </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 label-control">SKU</label>
+                <div class="col-md-7">
+                  <input class="form-control" data-ng-model="productService.sku" placeholder="SKU" type="text" required data-validation-required-message="Please enter SKU">
+                  <div class="help-block font-small-3"> </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 label-control">Selling Price</label>
+                <div class="col-md-7">
+                  <input class="form-control" data-ng-model="productService.selling_price" placeholder="Price" type="text" required data-validation-required-message="Please enter the price" data-validation-containsnumber-message="No Characters Allowed, Only numbers" data-validation-containsnumber-regex="(\d)+">
+                  <div class="help-block font-small-3"> </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 label-control">Purchase Price</label>
+                <div class="col-md-7">
+                  <input class="form-control" data-ng-model="productService.purchase_price" placeholder="Price" type="text" required data-validation-required-message="Please enter the price" data-validation-containsnumber-message="No Characters Allowed, Only numbers" data-validation-containsnumber-regex="(\d)+">
+                  <div class="help-block font-small-3"> </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 label-control">Item Type</label>
+                <div class="col-md-7">
+                  <select class="form-control" data-ng-model="productService.item_type" required data-validation-required-message="Please select item type">
+                    <option value="1"> Product </option>
+                    <option value="2"> Service </option>
+                  </select>
+                  <div class="help-block font-small-3"> </div>
+                </div>
+              </div>
+              <div class="form-group" style="padding-left: 30px;" data-ng-show="productService.item_type==1">
+                <input type="checkbox" name="inventoriable" data-ng-model="productService.is_inventoriable"> <label for="inventoriable"> Do you want to track quantities? </label>
+              </div>
+              <div class="form-group row">
+                <label class="col-md-3 label-control">Category</label>
+                <div class="col-md-7">
+                  <select class="form-control" data-ng-model="productService.product_category" data-ng-options="category for category in productCategoryNames" required data-validation-required-message="Please select category"> </select>
+                  <div class="help-block font-small-3"> </div>
+                </div>
+                <div class="col-md-2">
+                  <i class="icon-plus3" style="color: #967adc; font-size: 18px; position: absolute; top: 5px; left: -5px;" data-ng-click="showCreateProductCategoryDialog()"> </i>
+                </div>
+              </div>
+              <div class="form-group row hidden">
+                <label class="col-md-3 label-control">Active</label>
+                <div class="col-md-7">
+                  <input class="form-control" data-ng-model="productService.is_active" data-ng-init="productService.is_active=1" placeholder="Price" type="text">
+                </div>
+              </div>
+              <div class="form-group row hidden">
+                <label class="col-md-3 label-control">Foreign Keys</label>
+                <div class="col-md-7">
+                  <input class="form-control" data-ng-model="productService.foreign_keys" data-ng-init="productService.foreign_keys='[\'product_category\']'" placeholder="Price" type="text">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6"> </div>
+          <div class="col-md-6">
+            <fieldset class="form-group has-feedback">
+              <div class="help-block font-small-3 errors" data-ng-repeat="errorMessage in productServiceDialogErrorMessages"> {{ errorMessage }} </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn grey btn-outline-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" data-ng-click="bAddNew=false" data-ng-show="!isEditDialog"><i class="icon-plus-circle"></i> Save and Close</button>
+        <button type="submit" class="btn btn-primary" data-ng-click="bAddNew=true" data-ng-show="!isEditDialog"><i class="icon-plus-circle"></i> Save and Add New</button>
+        <button type="submit" class="btn btn-primary" data-ng-show="isEditDialog"><i class="icon-edit"></i> Edit </button>
+      </div>
+    </form>
+  </div>
+</div>
